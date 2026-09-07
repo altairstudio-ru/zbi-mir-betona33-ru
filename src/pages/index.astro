@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Button from '../components/Button.astro';
+// Выбираем активный вариант hero для показа клиенту:
+import HeroVisual from '../components/heroes/HeroVisual.astro';
+// import HeroVisual from '../components/heroes/HeroCalc.astro';
+// import HeroVisual from '../components/heroes/HeroSpec.astro';
 import {
   zbiProducts,
   fbsBlocks,
@@ -18,25 +22,7 @@ import {
   description="ФБС, плиты перекрытия, товарный бетон, кольца, брусчатка, сваи и балки. Производство и поставка ЖБИ во Владимире и области. С документами на каждую поставку."
 >
   <!-- HERO -->
-  <section class="py-20 px-6">
-    <div class="max-w-4xl mx-auto text-center">
-      <span class="inline-block text-sm font-medium text-primary bg-accent/10 rounded-full px-4 py-1.5 mb-6">
-        ЖБИ · Фундаменты · Плиты перекрытия · Брусчатка
-      </span>
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
-        Бетонные изделия с паспортом партии — <span class="text-primary">от 3 дней на объекте</span>
-      </h1>
-      <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-        Считаем объём под ваш проект, привозим точно в день монтажа. Без посредников, с документами на каждую поставку.
-      </p>
-      <div class="flex flex-wrap gap-3 justify-center">
-        <Button href="#contact" size="lg">Получить расчёт под ваш проект →</Button>
-      </div>
-      <p class="text-sm text-muted-foreground mt-4">
-        Крупные заказы — индивидуальные условия. Звоните: <a href="tel:+74922494891" class="text-primary font-medium">+7 (4922) 49-48-91</a>
-      </p>
-    </div>
-  </section>
+  <HeroVisual />
 
   <!-- NUMBERS -->
   <section class="border-y border-border py-8 px-6">
@@ -217,7 +203,7 @@ import {
   </section>
 
   <!-- LEAD MAGNET -->
-  <section class="py-16 px-6 bg-muted">
+  <section id="price" class="py-16 px-6 bg-muted">
     <div class="max-w-6xl mx-auto bg-card border border-border rounded-xl p-8 md:p-10 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
       <div>
         <h2 class="text-3xl font-extrabold mb-3">Скачать прайс-лист</h2>
