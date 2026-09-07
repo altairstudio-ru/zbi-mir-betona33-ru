@@ -1,0 +1,119 @@
+---
+// src/components/heroes/HeroSwitcher.astro
+import HeroVisual from './HeroVisual.astro';
+import HeroCalc from './HeroCalc.astro';
+import HeroSpec from './HeroSpec.astro';
+---
+
+<!-- ПЛАВАЮЩИЙ ПЕРЕКЛЮЧАТЕЛЬ ВАРИАНТОВ ДЛЯ КЛИЕНТА -->
+<div class="sticky top-20 z-50 flex justify-center px-4 py-2 pointer-events-none">
+  <div class="pointer-events-auto inline-flex items-center gap-1.5 p-1.5 rounded-full bg-slate-900/90 backdrop-blur-md shadow-2xl border border-slate-700/80 text-xs text-white">
+    <span class="hidden sm:inline-block px-3 py-1 text-slate-400 font-mono font-medium border-r border-slate-700">
+      Варианты шапки:
+    </span>
+
+    <button
+      type="button"
+      data-hero-btn="1"
+      class="hero-tab-btn px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 bg-[#E44D24] text-white shadow-sm shadow-[#E44D24]/30"
+    >
+      1. Техника и склад
+    </button>
+
+    <button
+      type="button"
+      data-hero-btn="2"
+      class="hero-tab-btn px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800"
+    >
+      2. Калькулятор-квиз
+    </button>
+
+    <button
+      type="button"
+      data-hero-btn="3"
+      class="hero-tab-btn px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800"
+    >
+      3. Инженерный ГОСТ
+    </button>
+  </div>
+</div>
+
+<!-- КОНТЕЙНЕР ВАРИАНТОВ -->
+<div id="hero-variants-container" class="relative">
+  <div id="hero-var-1" class="hero-variant-panel transition-opacity duration-300">
+    <HeroVisual />
+  </div>
+
+  <div id="hero-var-2" class="hero-variant-panel hidden transition-opacity duration-300">
+    <HeroCalc />
+  </div>
+
+  <div id="hero-var-3" class="hero-variant-panel hidden transition-opacity duration-300">
+    <HeroSpec />
+  </div>
+</div>
+
+<script>
+  function initHeroSwitcher() {
+    const buttons = document.querySelectorAll('.hero-tab-btn');
+    const panels = {
+      '1': document.getElementById('hero-var-1'),
+      '2': document.getElementById('hero-var-2'),
+      '3': document.getElementById('hero-var-3')
+    };
+
+    function setVariant(num) {
+      if (!panels[num]) return;
+
+      // Переключаем панели
+      Object.entries(panels).forEach(([key, panel]) => {
+        if (!panel) return;
+        if (key === num) {
+          panel.classList.remove('hidden');
+        } else {
+          panel.classList.add('hidden');
+        }
+      });
+
+      // Обновляем стили кнопок
+      buttons.forEach(btn => {
+        const btnNum = btn.getAttribute('data-hero-btn');
+        if (btnNum === num) {
+          btn.className = 'hero-tab-btn px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 bg-[#E44D24] text-white shadow-sm shadow-[#E44D24]/30';
+        } else {
+          btn.className = 'hero-tab-btn px-3.5 py-1.5 rounded-full font-semibold transition-all duration-200 text-slate-300 hover:text-white hover:bg-slate-800';
+        }
+      });
+
+      // Сохраняем в localStorage и hash
+      try {
+        localStorage.setItem('jbi_hero_variant', num);
+        history.replaceState(null, '', '#' + 'variant-' + num);
+      } catch (e) {}
+    }
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const num = btn.getAttribute('data-hero-btn');
+        setVariant(num);
+      });
+    });
+
+    // Читаем из URL hash или localStorage при загрузке
+    const hash = window.location.hash;
+    const match = hash.match(/variant-([1-3])/);
+    const saved = localStorage.getItem('jbi_hero_variant');
+
+    if (match && match[1]) {
+      setVariant(match[1]);
+    } else if (saved && panels[saved]) {
+      setVariant(saved);
+    } else {
+      setVariant('1');
+    }
+  }
+
+  // Запуск при первой загрузке и при переходах в Astro
+  document.addEventListener('DOMContentLoaded', initHeroSwitcher);
+  document.addEventListener('astro:page-load', initHeroSwitcher);
+</script>
