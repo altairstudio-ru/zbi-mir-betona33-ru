@@ -1,0 +1,18 @@
+---
+interface Props {
+  brand: string;
+  year?: number;
+  class?: string;
+}
+
+const { brand, year = new Date().getFullYear(), class: className = '' } = Astro.props;
+---
+
+<footer class:list={['bg-secondary text-secondary-foreground py-12 px-6', className]}>
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+    <p class="text-sm opacity-70">&copy; {year} {brand}</p>
+    <ul class="flex gap-6 list-none text-sm">
+      <li><a href="/privacy" class="opacity-70 hover:opacity-100 transition-opacity">Политика конфиденциальности</a></li>
+    </ul>
+  </div>
+</footer>

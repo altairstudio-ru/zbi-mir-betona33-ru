@@ -1,0 +1,38 @@
+---
+interface Column {
+  key: string;
+  label: string;
+  width?: string;
+}
+
+interface Props {
+  columns: Column[];
+  data: Record<string, any>[];
+  class?: string;
+}
+
+const { columns, data, class: className = '' } = Astro.props;
+---
+
+<div class:list={['w-full overflow-x-auto rounded-lg border border-border', className]}>
+  <table class="w-full border-collapse text-sm">
+    <thead>
+      <tr class="bg-secondary text-secondary-foreground">
+        {columns.map(col => (
+          <th class="px-4 py-3 text-left font-semibold whitespace-nowrap" style={col.width ? `width: ${col.width}` : undefined}>
+            {col.label}
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {data.map(row => (
+        <tr class="border-b border-border last:border-0 hover:bg-muted/50 transition-colors">
+          {columns.map(col => (
+            <td class="px-4 py-3">{row[col.key]}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

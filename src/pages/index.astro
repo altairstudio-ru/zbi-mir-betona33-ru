@@ -1,0 +1,266 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Button from '../components/Button.astro';
+import {
+  zbiProducts,
+  fbsBlocks,
+  stats,
+  aboutStats,
+  steps,
+  reviews,
+  faqItems,
+} from '../data/products';
+---
+
+<Base
+  title="Бетонные изделия с паспортом партии — от 3 дней на объекте"
+  description="ФБС, плиты перекрытия, товарный бетон, кольца, брусчатка, сваи и балки. Производство и поставка ЖБИ во Владимире и области. С документами на каждую поставку."
+>
+  <!-- HERO -->
+  <section class="py-20 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="inline-block text-sm font-medium text-primary bg-accent/10 rounded-full px-4 py-1.5 mb-6">
+        ЖБИ · Фундаменты · Плиты перекрытия · Брусчатка
+      </span>
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6">
+        Бетонные изделия с паспортом партии — <span class="text-primary">от 3 дней на объекте</span>
+      </h1>
+      <p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+        Считаем объём под ваш проект, привозим точно в день монтажа. Без посредников, с документами на каждую поставку.
+      </p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <Button href="#contact" size="lg">Получить расчёт под ваш проект →</Button>
+      </div>
+      <p class="text-sm text-muted-foreground mt-4">
+        Крупные заказы — индивидуальные условия. Звоните: <a href="tel:+74922494891" class="text-primary font-medium">+7 (4922) 49-48-91</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- NUMBERS -->
+  <section class="border-y border-border py-8 px-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+      {stats.map(s => (
+        <div class="text-center">
+          <div class="text-3xl md:text-4xl font-bold text-foreground">{s.number}</div>
+          <div class="text-sm text-muted-foreground mt-1">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products" class="py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Продукция</div>
+        <h2 class="text-3xl font-extrabold mb-3">Что производим и поставляем</h2>
+        <p class="text-muted-foreground">Все изделия — с паспортом партии и сертификатом соответствия. Доставка по региону своим автопарком.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {zbiProducts.map(p => (
+          <div class="border border-border rounded-lg p-4 flex justify-between items-center">
+            <div class="font-medium text-foreground">{p.name}</div>
+            <div class="text-sm text-muted-foreground whitespace-nowrap ml-4">{p.price}</div>
+          </div>
+        ))}
+      </div>
+      <p class="text-sm text-muted-foreground mt-5">Цены ориентировочные. Финальная стоимость зависит от объёма, марки и логистики — расчёт за 1 рабочий день.</p>
+    </div>
+  </section>
+
+  <!-- FBS TABLE -->
+  <section id="sizes" class="py-16 px-6 bg-muted">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Сортамент</div>
+        <h2 class="text-3xl font-extrabold mb-3">Фундаментные блоки ФБС — размеры и вес</h2>
+        <p class="text-muted-foreground">Производим по ГОСТ 13579-78. Марка бетона по умолчанию М100–М200, морозостойкость F50, водонепроницаемость W2. Другие марки — по запросу.</p>
+      </div>
+      <div class="overflow-x-auto rounded-lg border border-border">
+        <table class="w-full border-collapse text-sm">
+          <thead>
+            <tr class="bg-secondary text-secondary-foreground">
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Марка</th>
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Длина, мм</th>
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Ширина, мм</th>
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Высота, мм</th>
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Вес, кг</th>
+            </tr>
+          </thead>
+          <tbody>
+            {fbsBlocks.map(b => (
+              <tr class="border-b border-border last:border-0 hover:bg-muted/50">
+                <td class="px-4 py-3 font-medium text-foreground">{b.mark}</td>
+                <td class="px-4 py-3">{b.length}</td>
+                <td class="px-4 py-3">{b.width}</td>
+                <td class="px-4 py-3">{b.height}</td>
+                <td class="px-4 py-3">{b.weight}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="text-sm text-muted-foreground mt-4">Не нашли нужный размер? Изготовим по вашему чертежу от 50 шт. Срок — от 7 рабочих дней.</p>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="py-16 px-6">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-10 items-start">
+      <div>
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">О производстве</div>
+        <h2 class="text-3xl font-extrabold mb-3">Завод с 2006 года</h2>
+        <p class="text-muted-foreground mb-3">Собственное производство на двух линиях: товарный бетон и формовочный цех ЖБИ. Лаборатория контроля качества, склад готовой продукции, парк миксеров и манипуляторов.</p>
+        <p class="text-muted-foreground">Не перепродаём чужое — делаем сами. Это значит фиксированная цена в договоре и контроль на каждом этапе: от приёмки цемента до отгрузки на ваш объект.</p>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        {aboutStats.map(s => (
+          <div class="border-l-4 border-primary pl-3">
+            <div class="text-2xl font-bold text-foreground">{s.number}</div>
+            <div class="text-sm text-muted-foreground mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTOS (placeholder) -->
+  <section class="py-16 px-6 bg-secondary text-secondary-foreground">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-8">
+        <div class="text-sm font-semibold uppercase tracking-wider mb-2 text-primary">Производство</div>
+        <h2 class="text-3xl font-extrabold mb-3">Как выглядит наш завод</h2>
+        <p class="opacity-80">Реальные фото со склада и производственной площадки. Без стоковых картинок.</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {['Цех ЖБИ', 'Склад ФБС', 'Бетонный узел', 'Отгрузка', 'Лаборатория'].map(p => (
+          <div class="aspect-[4/3] bg-black/20 rounded-lg flex items-center justify-center text-sm text-center p-3">
+            📷 Фото: {p}<br /><span class="opacity-60">[ВСТАВИТЬ]</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- DELIVERY -->
+  <section id="delivery" class="py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Логистика</div>
+        <h2 class="text-3xl font-extrabold mb-3">Доставка по области и соседним регионам</h2>
+        <p class="text-muted-foreground">Свой автопарк миксеров и длинномеров. Считаем стоимость доставки по километражу, без скрытых надбавок.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 items-start">
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {[
+            'Владимир — от 0 ₽ (в пределах города)',
+            '[ВСТАВИТЬ РАЙОН 1]',
+            '[ВСТАВИТЬ РАЙОН 2]',
+            '[ВСТАВИТЬ РАЙОН 3]',
+            '[ВСТАВИТЬ РЕГИОН 1]',
+            '[ВСТАВИТЬ РЕГИОН 2]',
+            '[ВСТАВИТЬ РЕГИОН 3]',
+            '[ВСТАВИТЬ РЕГИОН 4]',
+          ].map(item => (
+            <li class="text-muted-foreground border-b border-dashed border-border pb-2">📍 {item}</li>
+          ))}
+        </ul>
+        <div class="aspect-[4/3] bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm">
+          🗺️ Карта зоны доставки<br />[ВСТАВИТЬ КАРТУ — Yandex Maps / 2GIS]
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE WORK -->
+  <section id="how" class="py-16 px-6 bg-muted">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Как работаем</div>
+        <h2 class="text-3xl font-extrabold mb-3">От заявки до монтажа — 4 шага</h2>
+        <p class="text-muted-foreground">Без лишних звонков и согласований. Прозрачный процесс — знаете, что и когда произойдёт.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {steps.map(s => (
+          <div class="bg-card border border-border rounded-lg p-5">
+            <div class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground text-sm font-semibold mb-3">{s.number}</div>
+            <h4 class="font-bold mb-1">{s.title}</h4>
+            <p class="text-sm text-muted-foreground">{s.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews" class="py-16 px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="max-w-2xl mb-10">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Отзывы</div>
+        <h2 class="text-3xl font-extrabold mb-3">Что говорят клиенты</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {reviews.map(r => (
+          <div class="border border-border rounded-lg p-5">
+            <div class="text-amber-500 mb-3">★★★★★</div>
+            <p class="text-muted-foreground mb-4">{r.text}</p>
+            <div>
+              <div class="font-semibold text-foreground">{r.name}</div>
+              <div class="text-sm text-muted-foreground">{r.role}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- LEAD MAGNET -->
+  <section class="py-16 px-6 bg-muted">
+    <div class="max-w-6xl mx-auto bg-card border border-border rounded-xl p-8 md:p-10 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
+      <div>
+        <h2 class="text-3xl font-extrabold mb-3">Скачать прайс-лист</h2>
+        <p class="text-muted-foreground">Актуальные цены на ФБС, плиты, бетон и сопутствующие изделия. Без спама — только полезный документ.</p>
+      </div>
+      <form class="flex flex-col gap-2" onsubmit="return false;">
+        <input type="tel" placeholder="+7 (___) ___-__-__" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+        <input type="email" placeholder="Email для отправки прайса" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+        <Button type="submit" variant="primary">Получить прайс</Button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 px-6">
+    <div class="max-w-3xl mx-auto">
+      <div class="mb-10 text-center">
+        <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">FAQ</div>
+        <h2 class="text-3xl font-extrabold mb-3">Частые вопросы</h2>
+      </div>
+      <div class="border-t border-border">
+        {faqItems.map(q => (
+          <details class="border-b border-border py-5">
+            <summary class="font-medium text-foreground cursor-pointer list-none flex justify-between items-center text-base">{q.question}</summary>
+            <p class="mt-3 text-muted-foreground text-sm">{q.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section id="contact" class="py-16 px-6 bg-secondary text-secondary-foreground text-center">
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-3xl font-extrabold mb-3">Получите расчёт под ваш проект</h2>
+      <p class="opacity-80 max-w-lg mx-auto mb-7">Опишите задачу — посчитаем объём, марку и стоимость за 1 рабочий день.</p>
+      <div class="flex flex-wrap gap-3 justify-center">
+        <Button href="tel:+74922494891" size="lg">Позвонить: +7 (4922) 49-48-91</Button>
+        <Button href="mailto:zakaz@mir-betona33.ru" size="lg" variant="outline">zakaz@mir-betona33.ru</Button>
+      </div>
+      <div class="mt-8 pt-6 border-t border-black/20 text-sm opacity-80">
+        Крупные заказы — индивидуальные условия. <a href="tel:+74922494891" class="text-white font-medium">Звоните</a> или пишите на <a href="mailto:opt@mir-betona33.ru" class="text-white font-medium">opt@mir-betona33.ru</a>
+      </div>
+    </div>
+  </section>
+</Base>

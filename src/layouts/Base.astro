@@ -1,0 +1,40 @@
+---
+import '../styles/base.css';
+import '../tokens/theme-jbi.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SEO from '../components/SEO.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical?: string;
+}
+
+const { title, description, canonical } = Astro.props;
+
+const headerLinks = [
+  { label: 'Продукция', href: '#products' },
+  { label: 'Сортамент', href: '#sizes' },
+  { label: 'Доставка', href: '#delivery' },
+  { label: 'Как работаем', href: '#how' },
+  { label: 'Отзывы', href: '#reviews' },
+  { label: 'Контакты', href: '#contact' },
+];
+---
+
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <SEO title={title} description={description} canonical={canonical} />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body class="min-h-screen flex flex-col">
+  <Header brand="Мир Бетонных Изделий" links={headerLinks} phone="+7 (4922) 49-48-91" />
+  <main class="flex-1">
+    <slot />
+  </main>
+  <Footer brand="Мир Бетонных Изделий" />
+</body>
+</html>
