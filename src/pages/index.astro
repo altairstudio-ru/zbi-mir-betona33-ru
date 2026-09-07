@@ -118,10 +118,16 @@ import {
         <p class="opacity-80">Реальные фото со склада и производственной площадки. Без стоковых картинок.</p>
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-        {['Цех ЖБИ', 'Склад ФБС', 'Отгрузка манипулятором', 'Лаборатория ОТК'].map(p => (
-          <div class="aspect-[4/3] bg-black/20 rounded-lg flex items-center justify-center text-sm text-center p-3">
-            📷 Фото: {p}<br /><span class="opacity-60">[ВСТАВИТЬ]</span>
-          </div>
+        {[
+          { src: '/photos/tseh.jpg', label: 'Цех ЖБИ' },
+          { src: '/photos/sklad.jpg', label: 'Склад ФБС' },
+          { src: '/photos/otgruzka.jpg', label: 'Отгрузка манипулятором' },
+          { src: '/photos/laboratoriya.jpg', label: 'Лаборатория ОТК' },
+        ].map(p => (
+          <figure class="rounded-lg overflow-hidden bg-black/20">
+            <img src={p.src} alt={p.label} loading="lazy" class="w-full aspect-[4/3] object-cover" />
+            <figcaption class="text-sm text-center p-3 opacity-80">{p.label}</figcaption>
+          </figure>
         ))}
       </div>
     </div>
