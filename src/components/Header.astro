@@ -17,33 +17,108 @@ const {
   phone,
   class: className = '',
 } = Astro.props;
+
+const telHref = phone ? `tel:${phone.replace(/[^0-9+]/g, '')}` : '#';
 ---
 
 <header class:list={['sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border', className]}>
-  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-3">
     <Logo />
 
-    {links.length > 0 && (
-      <nav>
-        <ul class="flex gap-6 list-none">
-          {links.map(link => (
-            <li>
-              <a href={link.href} class="font-medium text-muted-foreground hover:text-primary transition-colors">
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    )}
+    <nav class="hidden lg:flex" aria-label="Основное меню">
+      <ul class="flex gap-6 list-none">
+        {links.map(link => (
+          <li>
+            <a href={link.href} class="font-medium text-muted-foreground hover:text-primary transition-colors whitespace-nowrap">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
 
-    {phone && (
-      <a
-        href={`tel:${phone.replace(/[^0-9+]/g, '')}`}
-        class="font-bold text-primary text-lg"
+    <div class="flex items-center gap-2 sm:gap-3">
+      {phone && (
+        <a href={telHref} class="font-bold text-primary text-sm sm:text-lg whitespace-nowrap">
+          {phone}
+        </a>
+      )}
+      <button
+        id="menu-btn"
+        type="button"
+        aria-label="Открыть меню"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border text-foreground hover:bg-muted transition-colors"
       >
-        {phone}
-      </a>
-    )}
+        <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <svg id="icon-close" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-border">
+    <ul class="px-4 sm:px-6 py-4 space-y-1 list-none">
+      {links.map(link => (
+        <li>
+          <a href={link.href} class="block px-3 py-2.5 rounded-lg font-medium text-muted-foreground hover:bg-muted hover:text-primary transition-colors">
+            {link.label}
+          </a>
+        </li>
+      ))}
+      {phone && (
+        <li class="pt-2 mt-2 border-t border-border">
+          <a href={telHref} class="block px-3 py-2.5 rounded-lg font-bold text-primary">
+            {phone}
+          </a>
+        </li>
+      )}
+    </ul>
   </div>
 </header>
+
+<script>
+  function initHeader() {
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('icon-open');
+    const iconClose = document.getElementById('icon-close');
+    if (!btn || !menu) return;
+
+    function close() {
+      menu.classList.add('hidden');
+      iconOpen?.classList.remove('hidden');
+      iconClose?.classList.add('hidden');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('aria-label', 'Открыть меню');
+    }
+
+    btn.addEventListener('click', () => {
+      const isOpen = !menu.classList.contains('hidden');
+      if (isOpen) {
+        close();
+      } else {
+        menu.classList.remove('hidden');
+        iconOpen?.classList.add('hidden');
+        iconClose?.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        btn.setAttribute('aria-label', 'Закрыть меню');
+      }
+    });
+
+    menu.addEventListener('click', ev => {
+      if (ev.target instanceof HTMLAnchorElement) close();
+    });
+
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024) close();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initHeader);
+  document.addEventListener('astro:page-load', initHeader);
+</script>
