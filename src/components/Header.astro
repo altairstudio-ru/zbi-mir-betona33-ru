@@ -1,18 +1,18 @@
 ---
+import Logo from './Logo.astro';
+
 interface NavLink {
   label: string;
   href: string;
 }
 
 interface Props {
-  brand: string;
   links?: NavLink[];
   phone?: string;
   class?: string;
 }
 
 const {
-  brand,
   links = [],
   phone,
   class: className = '',
@@ -21,7 +21,7 @@ const {
 
 <header class:list={['sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border', className]}>
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
-    <a href="/" class="text-xl font-extrabold text-primary">{brand}</a>
+    <Logo />
 
     {links.length > 0 && (
       <nav>

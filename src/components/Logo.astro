@@ -1,0 +1,47 @@
+---
+// src/components/Logo.astro
+interface Props {
+  variant?: 'full' | 'icon' | 'white';
+  class?: string;
+}
+
+const { variant = 'full', class: className = '' } = Astro.props;
+---
+
+<a href="/" class={`inline-flex items-center gap-3 group focus:outline-none ${className}`} aria-label="Мир Бетона — Завод ЖБИ">
+  <!-- Иконка знака ФБС (аналог миксеру основного сайта) -->
+  <div class="relative w-10 h-10 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
+    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-sm">
+      <ellipse cx="24" cy="42" rx="16" ry="3.5" fill="#0F172A" fill-opacity="0.12"/>
+      
+      <!-- Монтажные петли ГОСТ -->
+      <path d="M17 18V13C17 11.3431 18.3431 10 20 10C21.6569 10 23 11.3431 23 13V15.5" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M27 15.5V13C27 11.3431 28.3431 10 30 10C31.6569 10 33 11.3431 33 13V18" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+
+      <!-- Блок ФБС в изометрии -->
+      <path d="M24 14L40 21L24 28L8 21L24 14Z" fill="#F97316"/>
+      <path d="M8 21L24 28V39L8 32V21Z" fill="#E44D24"/>
+      <path d="M24 28L40 21V32L24 39V28Z" fill="#C23814"/>
+
+      <!-- Технологический монтажный паз -->
+      <path d="M22 28.8L24 29.8L26 28.8V38.2L24 39.2L22 38.2V28.8Z" fill="#9A2C0E"/>
+      <path d="M24 28V39" stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.35"/>
+    </svg>
+  </div>
+
+  {variant !== 'icon' && (
+    <div class="flex flex-col text-left">
+      <div class="flex items-center gap-2">
+        <span class={`font-black text-lg tracking-tight leading-none ${variant === 'white' ? 'text-white' : 'text-slate-900 group-hover:text-[#E44D24] transition-colors'}`}>
+          МИР БЕТОНА
+        </span>
+        <span class="px-1.5 py-0.5 rounded bg-[#E44D24] text-white text-[10px] font-black tracking-wider uppercase leading-none">
+          ЖБИ
+        </span>
+      </div>
+      <span class={`text-[10px] font-semibold tracking-wider uppercase mt-1 leading-none ${variant === 'white' ? 'text-slate-400' : 'text-slate-500'}`}>
+        Завод бетонных изделий
+      </span>
+    </div>
+  )}
+</a>

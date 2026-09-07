@@ -1,0 +1,17 @@
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Тень основания -->
+  <ellipse cx="24" cy="42" rx="17" ry="3.5" fill="#0F172A" fill-opacity="0.12"/>
+  
+  <!-- Стальные монтажные петли ГОСТ -->
+  <path d="M17 18V13C17 11.3431 18.3431 10 20 10C21.6569 10 23 11.3431 23 13V15.5" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M27 15.5V13C27 11.3431 28.3431 10 30 10C31.6569 10 33 11.3431 33 13V18" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Блок ФБС в изометрии -->
+  <path d="M24 14L40 21L24 28L8 21L24 14Z" fill="#F97316"/>
+  <path d="M8 21L24 28V39L8 32V21Z" fill="#E44D24"/>
+  <path d="M24 28L40 21V32L24 39V28Z" fill="#C23814"/>
+
+  <!-- Технологический торцевой паз -->
+  <path d="M22 28.8L24 29.8L26 28.8V38.2L24 39.2L22 38.2V28.8Z" fill="#9A2C0E"/>
+  <path d="M24 28V39" stroke="#FFFFFF" stroke-width="0.75" stroke-opacity="0.35"/>
+</svg>
