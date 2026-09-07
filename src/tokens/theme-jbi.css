@@ -5,15 +5,15 @@
 
 :root {
   --background: 0 0% 100%;
-  --foreground: 20 47% 7%;
+  --foreground: 222 47% 7%;
 
   --card: 0 0% 100%;
-  --card-foreground: 20 47% 7%;
+  --card-foreground: 222 47% 7%;
 
   --primary: 13 78% 52%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 20 47% 7%;
+  --secondary: 222 47% 7%;
   --secondary-foreground: 0 0% 100%;
 
   --muted: 30 30% 96%;
