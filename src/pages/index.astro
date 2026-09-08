@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Button from '../components/Button.astro';
-import HeroSwitcher from '../components/heroes/HeroSwitcher.astro';
+import HeroCalc from '../components/heroes/HeroCalc.astro';
 import {
   zbiProducts,
   fbsBlocks,
@@ -18,8 +18,8 @@ import {
   title="Бетонные изделия с паспортом партии — от 3 дней на объекте"
   description="ФБС, плиты перекрытия, товарный бетон, кольца, брусчатка, сваи и балки. Производство и поставка ЖБИ во Владимире и области. С документами на каждую поставку."
 >
-  <!-- HERO (интерактивный выбор варианта для клиента) -->
-  <HeroSwitcher />
+  <!-- HERO (вариант 2: экспресс-калькулятор/квиз) -->
+  <HeroCalc />
 
   <!-- NUMBERS -->
   <section class="border-y border-border py-8 px-6">
