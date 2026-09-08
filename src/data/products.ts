@@ -41,7 +41,7 @@ export const stats = [
 export const aboutStats = [
   { number: '2 линии', label: 'бетон + ЖБИ' },
   { number: '24/7', label: 'отгрузка в выходные' },
-  { number: '[ВСТАВИТЬ] м²', label: 'склад готовой продукции' },
+  { number: '12 000 м²', label: 'склад готовой продукции' },
   { number: '12 машин', label: 'свой автопарк' },
 ];
 
