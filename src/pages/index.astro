@@ -12,6 +12,17 @@ import {
   reviews,
   faqItems,
 } from '../data/products';
+
+const MAPS: Array<[string, string]> = [
+  ['vladimir', 'Владимир'],
+  ['sudogda', 'Судогда'],
+  ['suzdal', 'Суздаль'],
+  ['raduzhny', 'Радужный'],
+  ['kovrov', 'Ковров'],
+  ['gus-khrustalny', 'Гусь-Хрустальный'],
+  ['yuryev-polsky', 'Юрьев-Польский'],
+  ['ivanovo', 'Ивановская область'],
+];
 ---
 
 <Base
@@ -144,20 +155,45 @@ import {
       <div class="grid md:grid-cols-2 gap-8 items-start">
         <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2">
           {[
-            'Владимир — от 0 ₽ (в пределах города)',
-            '[ВСТАВИТЬ РАЙОН 1]',
-            '[ВСТАВИТЬ РАЙОН 2]',
-            '[ВСТАВИТЬ РАЙОН 3]',
-            '[ВСТАВИТЬ РЕГИОН 1]',
-            '[ВСТАВИТЬ РЕГИОН 2]',
-            '[ВСТАВИТЬ РЕГИОН 3]',
-            '[ВСТАВИТЬ РЕГИОН 4]',
-          ].map(item => (
-            <li class="text-muted-foreground border-b border-dashed border-border pb-2">📍 {item}</li>
+            ['Владимир', 'в пределах города — от 0 ₽'],
+            ['Судогда', 'районы'],
+            ['Суздаль', 'районы'],
+            ['Радужный', 'районы'],
+            ['Ковров', 'регионы'],
+            ['Гусь-Хрустальный', 'регионы'],
+            ['Юрьев-Польский', 'регионы'],
+            ['Ивановская обл.', 'регионы'],
+          ].map(([city, note], i) => (
+            <li>
+              <button
+                type="button"
+                data-map={MAPS[i][0]}
+                class={`delivery-city w-full text-left rounded-md px-3 py-2 transition-colors ${i === 0 ? 'bg-primary/10 text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
+              >
+                <span class="font-semibold">{city}</span>
+                {note !== 'районы' && note !== 'регионы' ? <span class="block text-xs text-muted-foreground">{note}</span> : <span class="block text-xs text-muted-foreground">{note === 'районы' ? 'район' : 'регион'} — расчёт по километражу</span>}
+              </button>
+            </li>
           ))}
         </ul>
-        <div class="aspect-[4/3] bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm">
-          🗺️ Карта зоны доставки<br />[ВСТАВИТЬ КАРТУ — Yandex Maps / 2GIS]
+        <div class="relative">
+          <div class="aspect-[4/3] bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm overflow-hidden">
+            <div id="map-placeholder" class="flex flex-col items-center gap-1 text-center px-6">
+              <span class="text-3xl">🗺️</span>
+              <span>Карта зоны доставки</span>
+              <span class="text-xs">нажмите на город, чтобы увидеть карту</span>
+            </div>
+            {MAPS.map(([slug, alt]) => (
+              <img
+                data-map-img={slug}
+                src={`/maps/${slug}.png`}
+                alt={alt}
+                loading="lazy"
+                class="hidden absolute inset-0 w-full h-full object-cover"
+                onerror="this.style.display='none'; document.getElementById('map-placeholder').style.display='flex';"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -252,4 +288,29 @@ import {
       </div>
     </div>
   </section>
+
+  <script>
+    const buttons = [...document.querySelectorAll('.delivery-city')];
+    const placeholder = document.getElementById('map-placeholder');
+    const imgs = [...document.querySelectorAll('[data-map-img]')];
+    const bySlug = Object.fromEntries(imgs.map(img => [img.dataset.mapImg, img]));
+    const show = slug => {
+      imgs.forEach(img => (img.style.display = 'none'));
+      placeholder.style.display = 'flex';
+      if (bySlug[slug]) {
+        bySlug[slug].style.display = 'block';
+        placeholder.style.display = 'none';
+      }
+    };
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => {
+          b.classList.toggle('bg-primary/10', b === btn);
+          b.classList.toggle('text-foreground', b === btn);
+          b.classList.toggle('text-muted-foreground', b !== btn && !b.classList.contains('bg-primary/10'));
+        });
+        show(btn.dataset.map);
+      });
+    });
+  </script>
 </Base>
