@@ -178,18 +178,17 @@ const MAPS: Array<[string, string]> = [
         </ul>
         <div class="relative">
           <div class="aspect-[4/3] bg-muted border border-border rounded-lg flex items-center justify-center text-muted-foreground text-sm overflow-hidden">
-            <div id="map-placeholder" class="flex flex-col items-center gap-1 text-center px-6">
+            <div id="map-placeholder" class="hidden flex-col items-center gap-1 text-center px-6">
               <span class="text-3xl">🗺️</span>
               <span>Карта зоны доставки</span>
               <span class="text-xs">нажмите на город, чтобы увидеть карту</span>
             </div>
-            {MAPS.map(([slug, alt]) => (
+            {MAPS.map(([slug, alt], i) => (
               <img
                 data-map-img={slug}
                 src={`/maps/${slug}.png`}
                 alt={alt}
-                loading="lazy"
-                class="hidden absolute inset-0 w-full h-full object-cover"
+                class={`absolute inset-0 w-full h-full object-cover ${i === 0 ? '' : 'hidden'}`}
                 onerror="this.style.display='none'; document.getElementById('map-placeholder').style.display='flex';"
               />
             ))}
