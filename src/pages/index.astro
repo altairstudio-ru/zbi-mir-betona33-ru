@@ -85,8 +85,8 @@ const MAPS: Array<[string, string]> = [
             </tr>
           </thead>
           <tbody>
-            {fbsBlocks.map(b => (
-              <tr class="border-b border-border last:border-0 hover:bg-muted/50">
+            {fbsBlocks.map((b, i) => (
+              <tr data-fbs-row class="border-b border-border last:border-0 hover:bg-muted/50" style={i >= 6 ? 'display: none' : ''}>
                 <td class="px-4 py-3 font-medium text-foreground">{b.mark}</td>
                 <td class="px-4 py-3">{b.length}</td>
                 <td class="px-4 py-3">{b.width}</td>
@@ -98,6 +98,10 @@ const MAPS: Array<[string, string]> = [
           </tbody>
         </table>
       </div>
+      <button id="fbs-more" type="button" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+        <span data-fbs-label>Показать все {fbsBlocks.length} размеров</span>
+        <svg class="w-4 h-4 transition-transform" data-fbs-chevron viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
       <p class="text-sm text-muted-foreground mt-4">Не нашли нужный размер? Изготовим по вашему чертежу от 50 шт. Срок — от 7 рабочих дней.</p>
     </div>
   </section>
@@ -313,5 +317,21 @@ const MAPS: Array<[string, string]> = [
         show(btn.dataset.map);
       });
     });
+
+    const fbsBtn = document.getElementById('fbs-more');
+    if (fbsBtn) {
+      const rows = [...document.querySelectorAll('[data-fbs-row]')];
+      const chevron = fbsBtn.querySelector('[data-fbs-chevron]');
+      const label = fbsBtn.querySelector('[data-fbs-label]');
+      fbsBtn.addEventListener('click', () => {
+        const expanded = fbsBtn.dataset.expanded === '1';
+        rows.forEach((row, i) => {
+          if (i >= 6) row.style.display = expanded ? 'none' : '';
+        });
+        fbsBtn.dataset.expanded = expanded ? '0' : '1';
+        if (label) label.textContent = expanded ? `Показать все ${rows.length} размеров` : 'Свернуть';
+        if (chevron) chevron.style.transform = expanded ? '' : 'rotate(180deg)';
+      });
+    }
   </script>
 </Base>
