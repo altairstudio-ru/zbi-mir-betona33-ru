@@ -135,6 +135,16 @@ const isVladimir = city === 'vladimir';
   /* ---- state ---- */
   let map = null;
   let initPromise = null;
+  let bndLayer = null;
+
+  /* Fit the whole city outline into the viewport box with a little breathing room. */
+  function fitToBoundary() {
+    if (!map || !bndLayer) return;
+    var b = bndLayer.getBounds();
+    if (b && b.isValid()) {
+      map.fitBounds(b, { paddingTopLeft: [28, 16], paddingBottomRight: [28, 28], maxZoom: 15 });
+    }
+  }
 
   const self = document.querySelector('[data-delivery-map="vladimir"]');
   if (!self) return;
@@ -262,6 +272,7 @@ const isVladimir = city === 'vladimir';
       var bnd = L.geoJSON(toFC(data.boundary), {
         style: { color: '#E44D24', weight: 2.5, fillColor: '#E44D24', fillOpacity: 0.07 },
       }).addTo(map);
+      bndLayer = bnd;
       bnd.bindTooltip('В пределах города — от 0 ₽', { sticky: true, direction: 'top', offset: [0, -8] });
       bnd.on('mouseover', function () { this.setStyle({ fillOpacity: 0.18, weight: 3.5 }); });
       bnd.on('mouseout', function () { this.setStyle({ fillOpacity: 0.07, weight: 2.5 }); });
@@ -289,7 +300,7 @@ const isVladimir = city === 'vladimir';
         { closeButton: true, offset: [0, -14] }
       );
 
-      setTimeout(function () { if (map) map.invalidateSize(); }, 120);
+      setTimeout(function () { if (map) { map.invalidateSize(); fitToBoundary(); } }, 120);
     })().catch(function (err) {
       console.error('[DeliveryMap] init failed:', err);
       initPromise = null;
@@ -329,7 +340,7 @@ const isVladimir = city === 'vladimir';
     if (e.detail && e.detail.slug === 'vladimir') {
       self.style.display = 'block';
       if (loading && loading.style.display !== 'none') loading.style.display = 'none';
-      if (map) setTimeout(function () { map.invalidateSize(); }, 60);
+      if (map) setTimeout(function () { map.invalidateSize(); fitToBoundary(); }, 60);
     } else {
       self.style.display = 'none';
     }
