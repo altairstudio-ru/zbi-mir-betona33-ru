@@ -9,6 +9,7 @@ export interface FbsBlock {
   width: number;
   height: number;
   weight: number;
+  price: number;
 }
 
 export const zbiProducts: ZbiProduct[] = [
@@ -21,14 +22,28 @@ export const zbiProducts: ZbiProduct[] = [
 ];
 
 export const fbsBlocks: FbsBlock[] = [
-  { mark: 'ФБС 24-3-6', length: 2380, width: 300, height: 580, weight: 970 },
-  { mark: 'ФБС 24-4-6', length: 2380, width: 400, height: 580, weight: 1300 },
-  { mark: 'ФБС 24-5-6', length: 2380, width: 500, height: 580, weight: 1630 },
-  { mark: 'ФБС 24-6-6', length: 2380, width: 600, height: 580, weight: 1960 },
-  { mark: 'ФБС 12-4-6', length: 1180, width: 400, height: 580, weight: 640 },
-  { mark: 'ФБС 12-5-6', length: 1180, width: 500, height: 580, weight: 790 },
-  { mark: 'ФБС 9-3-6', length: 880, width: 300, height: 580, weight: 350 },
-  { mark: 'ФБС 9-4-6', length: 880, width: 400, height: 580, weight: 470 },
+  { mark: 'ФБС 6-6-6',   length: 580,  width: 600, height: 580, weight: 540,  price: 1761 },
+  { mark: 'ФБС 8-6-6',   length: 780,  width: 600, height: 580, weight: 570,  price: 2283 },
+  { mark: 'ФБС 9-3-3',   length: 880,  width: 300, height: 280, weight: 190,  price: 853 },
+  { mark: 'ФБС 9-4-3',   length: 880,  width: 400, height: 280, weight: 250,  price: 864 },
+  { mark: 'ФБС 9-5-3',   length: 880,  width: 500, height: 280, weight: 270,  price: 1122 },
+  { mark: 'ФБС 9-6-3',   length: 880,  width: 600, height: 280, weight: 380,  price: 1316 },
+  { mark: 'ФБС 9-3-6',   length: 880,  width: 300, height: 580, weight: 320,  price: 1319 },
+  { mark: 'ФБС 9-4-6',   length: 880,  width: 400, height: 580, weight: 480,  price: 1708 },
+  { mark: 'ФБС 9-5-6',   length: 880,  width: 500, height: 580, weight: 540,  price: 2094 },
+  { mark: 'ФБС 9-6-6',   length: 880,  width: 600, height: 580, weight: 640,  price: 2540 },
+  { mark: 'ФБС 12-3-3',  length: 1180, width: 300, height: 280, weight: 240,  price: 985 },
+  { mark: 'ФБС 12-3-6',  length: 1180, width: 300, height: 580, weight: 455,  price: 1747 },
+  { mark: 'ФБС 12-4-3',  length: 1180, width: 400, height: 280, weight: 280,  price: 1173 },
+  { mark: 'ФБС 12-4-6',  length: 1180, width: 400, height: 580, weight: 580,  price: 2318 },
+  { mark: 'ФБС 12-5-3',  length: 1180, width: 500, height: 280, weight: 380,  price: 1423 },
+  { mark: 'ФБС 12-5-6',  length: 1180, width: 500, height: 580, weight: 790,  price: 2868 },
+  { mark: 'ФБС 12-6-3',  length: 1180, width: 600, height: 280, weight: 460,  price: 1675 },
+  { mark: 'ФБС 12-6-6',  length: 1180, width: 600, height: 580, weight: 880,  price: 3399 },
+  { mark: 'ФБС 24-3-6',  length: 2380, width: 300, height: 580, weight: 900,  price: 3471 },
+  { mark: 'ФБС 24-4-6',  length: 2380, width: 400, height: 580, weight: 1200, price: 4555 },
+  { mark: 'ФБС 24-5-6',  length: 2380, width: 500, height: 580, weight: 1500, price: 5723 },
+  { mark: 'ФБС 24-6-6',  length: 2380, width: 600, height: 580, weight: 1800, price: 6765 },
 ];
 
 export const stats = [

@@ -81,6 +81,7 @@ const MAPS: Array<[string, string]> = [
               <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Ширина, мм</th>
               <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Высота, мм</th>
               <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Вес, кг</th>
+              <th class="px-4 py-3 text-left font-semibold uppercase tracking-wider">Цена, ₽</th>
             </tr>
           </thead>
           <tbody>
@@ -91,6 +92,7 @@ const MAPS: Array<[string, string]> = [
                 <td class="px-4 py-3">{b.width}</td>
                 <td class="px-4 py-3">{b.height}</td>
                 <td class="px-4 py-3">{b.weight}</td>
+                <td class="px-4 py-3 whitespace-nowrap">{b.price.toLocaleString('ru-RU')} ₽</td>
               </tr>
             ))}
           </tbody>
