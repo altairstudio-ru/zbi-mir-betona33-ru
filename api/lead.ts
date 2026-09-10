@@ -4,12 +4,16 @@ export default async function handler(req: any, res: any) {
   }
 
   let body: Record<string, unknown> = {};
-  let raw = '';
-  for await (const chunk of req) raw += chunk;
-  try {
-    body = JSON.parse(raw || '{}');
-  } catch {
-    return res.status(400).json({ ok: false, error: 'Некорректный формат данных' });
+  if (req.body && typeof req.body === 'object' && !Array.isArray(req.body)) {
+    body = req.body;
+  } else {
+    let raw = '';
+    for await (const chunk of req) raw += chunk;
+    try {
+      body = raw ? JSON.parse(raw) : {};
+    } catch {
+      return res.status(400).json({ ok: false, error: 'Некорректный формат данных' });
+    }
   }
 
   const phone = String(body.phone ?? '').trim();
