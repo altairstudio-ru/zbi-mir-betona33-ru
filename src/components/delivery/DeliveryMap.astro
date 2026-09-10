@@ -142,7 +142,8 @@ const isVladimir = city === 'vladimir';
     if (!map || !bndLayer) return;
     var b = bndLayer.getBounds();
     if (b && b.isValid()) {
-      map.fitBounds(b, { paddingTopLeft: [28, 16], paddingBottomRight: [28, 28], maxZoom: 15 });
+      var z = map.getBoundsZoom(b, false, { paddingTopLeft: [28, 16], paddingBottomRight: [28, 28] });
+      map.setView(b.getCenter(), z + 1, { maxZoom: 15 });
     }
   }
 
