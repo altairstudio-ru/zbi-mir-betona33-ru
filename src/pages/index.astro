@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import Button from '../components/Button.astro';
 import HeroCalc from '../components/heroes/HeroCalc.astro';
+import DeliveryMap from '../components/delivery/DeliveryMap.astro';
 import {
   zbiProducts,
   fbsBlocks,
@@ -174,6 +175,7 @@ const MAPS: Array<[string, string]> = [
               <button
                 type="button"
                 data-map={MAPS[i][0]}
+                aria-pressed={i === 0 ? 'true' : 'false'}
                 class={`delivery-city w-full text-left rounded-md px-3 py-2 transition-colors ${i === 0 ? 'bg-primary/10 text-foreground' : 'text-muted-foreground hover:bg-muted'}`}
               >
                 <span class="font-semibold">{city}</span>
@@ -189,13 +191,16 @@ const MAPS: Array<[string, string]> = [
               <span>Карта зоны доставки</span>
               <span class="text-xs">нажмите на город, чтобы увидеть карту</span>
             </div>
-            {MAPS.map(([slug, alt], i) => (
+            <DeliveryMap city="vladimir" label="Владимир" />
+            {MAPS.filter(([slug]) => slug !== 'vladimir').map(([slug, alt]) => (
               <img
                 data-map-img={slug}
                 src={`/maps/${slug}.png`}
                 alt={alt}
-                class={`absolute inset-0 w-full h-full object-cover ${i === 0 ? '' : 'hidden'}`}
-                onerror="this.style.display='none'; document.getElementById('map-placeholder').style.display='flex';"
+                loading="lazy"
+                decoding="async"
+                class="absolute inset-0 w-full h-full object-cover hidden"
+                onerror="this.style.display='none';document.getElementById('map-placeholder')?.style.setProperty('display','flex')"
               />
             ))}
           </div>
@@ -305,21 +310,33 @@ const MAPS: Array<[string, string]> = [
     const buttons = [...document.querySelectorAll('.delivery-city')];
     const placeholder = document.getElementById('map-placeholder');
     const imgs = [...document.querySelectorAll('[data-map-img]')];
+    const mapContainer = document.querySelector('[data-delivery-map="vladimir"]');
     const bySlug = Object.fromEntries(imgs.map(img => [img.dataset.mapImg, img]));
+
     const show = slug => {
       imgs.forEach(img => (img.style.display = 'none'));
+      if (mapContainer) mapContainer.style.display = 'none';
       placeholder.style.display = 'flex';
-      if (bySlug[slug]) {
+      if (slug === 'vladimir') {
+        if (mapContainer) {
+          mapContainer.style.display = 'block';
+          placeholder.style.display = 'none';
+        }
+        window.dispatchEvent(new CustomEvent('delivery:show', { detail: { slug } }));
+      } else if (bySlug[slug]) {
         bySlug[slug].style.display = 'block';
         placeholder.style.display = 'none';
       }
     };
+
     buttons.forEach(btn => {
+      btn.setAttribute('aria-pressed', btn === buttons[0] ? 'true' : 'false');
       btn.addEventListener('click', () => {
         buttons.forEach(b => {
           b.classList.toggle('bg-primary/10', b === btn);
           b.classList.toggle('text-foreground', b === btn);
           b.classList.toggle('text-muted-foreground', b !== btn && !b.classList.contains('bg-primary/10'));
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
         });
         show(btn.dataset.map);
       });
