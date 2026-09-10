@@ -253,11 +253,12 @@ const MAPS: Array<[string, string]> = [
         <h2 class="text-3xl font-extrabold mb-3">Скачать прайс-лист</h2>
         <p class="text-muted-foreground">Актуальные цены на ФБС, плиты, бетон и сопутствующие изделия. Без спама — только полезный документ.</p>
       </div>
-      <form class="flex flex-col gap-2" onsubmit="return false;">
-        <input type="tel" placeholder="+7 (___) ___-__-__" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
-        <input type="email" placeholder="Email для отправки прайса" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
-        <Button type="submit" variant="primary">Получить прайс</Button>
-      </form>
+<form id="price-form" class="flex flex-col gap-2">
+          <input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+          <input name="email" type="email" placeholder="Email для отправки прайса" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+          <Button type="submit" variant="primary">Получить прайс</Button>
+          <p id="price-form-status" class="hidden text-sm font-medium"></p>
+        </form>
     </div>
   </section>
 
@@ -337,6 +338,46 @@ const MAPS: Array<[string, string]> = [
         fbsBtn.dataset.expanded = expanded ? '0' : '1';
         if (label) label.textContent = expanded ? `Показать все ${rows.length} размеров` : 'Свернуть';
         if (chevron) chevron.style.transform = expanded ? '' : 'rotate(180deg)';
+      });
+    }
+
+    const priceForm = document.getElementById('price-form');
+    if (priceForm) {
+      const status = document.getElementById('price-form-status');
+      const submit = priceForm.querySelector('button[type="submit"]');
+      const showStatus = (text, ok) => {
+        status.textContent = text;
+        status.classList.remove('hidden');
+        status.classList.toggle('text-emerald-700', ok);
+        status.classList.toggle('text-red-600', !ok);
+      };
+      priceForm.addEventListener('submit', async ev => {
+        ev.preventDefault();
+        const phone = priceForm.querySelector('input[name="phone"]').value.trim();
+        const email = priceForm.querySelector('input[name="email"]').value.trim();
+        if (!phone && !email) {
+          showStatus('Укажите телефон или email — куда отправить прайс', false);
+          return;
+        }
+        if (submit) submit.disabled = true;
+        showStatus('Отправляем прайс...', true);
+        try {
+          const r = await fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ source: 'price', phone, email }),
+          });
+          const j = await r.json();
+          if (j.ok) {
+            showStatus('Готово! Прайс уже летит на указанный контакт.', true);
+            priceForm.reset();
+          } else {
+            showStatus(j.error || 'Не удалось отправить', false);
+          }
+        } catch {
+          showStatus('Сервис временно недоступен. Позвоните: +7 (4922) 49-48-91', false);
+        }
+        if (submit) submit.disabled = false;
       });
     }
   </script>

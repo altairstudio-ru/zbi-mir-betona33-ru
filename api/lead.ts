@@ -1,0 +1,26 @@
+export default async function handler(req: any, res: any) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ ok: false, error: 'Method not allowed' });
+  }
+
+  let body: Record<string, unknown> = {};
+  try {
+    body = req.body ?? {};
+  } catch {
+    /* ignore */
+  }
+
+  const phone = String(body.phone ?? '').trim();
+  const email = String(body.email ?? '').trim();
+  if (!phone && !email) {
+    return res.status(400).json({ ok: false, error: 'Укажите телефон или email' });
+  }
+
+  if (phone && !/^\+?[0-9\s\-()]{6,20}$/.test(phone)) {
+    return res.status(400).json({ ok: false, error: 'Проверьте номер телефона' });
+  }
+
+  console.log('[lead]', JSON.stringify({ ...body, phone, email }));
+
+  return res.status(200).json({ ok: true });
+}

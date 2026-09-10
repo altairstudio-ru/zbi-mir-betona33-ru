@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://zbi.mir-betona33.ru/sitemap.xml
