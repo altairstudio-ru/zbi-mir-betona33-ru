@@ -1,24 +1,29 @@
 ---
 /**
- * DeliveryMap — interactive Leaflet map for Vladimir, lazy image for other cities.
- * Props: city (slug), label (display name).
- * Lazy-loaded via IntersectionObserver; data from /delivery/vladimir.json.
+ * DeliveryMap — interactive Leaflet map (when per-city GeoJSON exists) or PNG fallback.
+ * Props: city (slug), label (display name), interactive (bool → has JSON on disk).
+ * Data from /delivery/{city}.json; PNG fallback /maps/{city}.png.
+ * Lazy-loaded via IntersectionObserver.
  */
 interface Props {
   city: string;
   label: string;
+  interactive?: boolean;
+  active?: boolean;
 }
-const { city, label } = Astro.props;
-const isVladimir = city === 'vladimir';
+const { city, label, interactive = false, active = false } = Astro.props;
+/* Interactive (Leaflet) only when a per-city GeoJSON exists — decided by index.astro
+   from which /delivery/{city}.json files are on disk. PNG is the universal fallback. */
+const isInteractive = interactive;
 ---
 
 <div
   data-delivery-map={city}
   class="absolute inset-0"
-  style={`background:#FAF7F2;${isVladimir ? '' : 'display:none;'}`}
+  style={`background:#FAF7F2;${interactive && active ? '' : 'display:none;'}`}
   aria-label={`Карта доставки: ${label}`}
 >
-  {isVladimir ? (
+  {interactive ? (
     <>
       {/* Loading spinner */}
       <div class="delivery-loading absolute inset-0 flex items-center justify-center" style="background:#FAF7F2;z-index:400;">
@@ -130,7 +135,7 @@ const isVladimir = city === 'vladimir';
 .popup-tel:hover { text-decoration: underline; }
 </style>
 
-<script>
+<script define:vars={{ city, label }}>
 (function () {
   /* ---- state ---- */
   let map = null;
@@ -146,7 +151,7 @@ const isVladimir = city === 'vladimir';
     }
   }
 
-  const self = document.querySelector('[data-delivery-map="vladimir"]');
+  const self = document.querySelector('[data-delivery-map="' + city + '"]');
   if (!self) return;
   const surface = self.querySelector('.delivery-map-surface');
   const loading = self.querySelector('.delivery-loading');
@@ -181,7 +186,7 @@ const isVladimir = city === 'vladimir';
       var L = leafletMod.default || leafletMod;
       await import('leaflet/dist/leaflet.css');
 
-      var resp = await fetch('/delivery/vladimir.json');
+      var resp = await fetch('/delivery/' + city + '.json');
       if (!resp.ok) throw new Error(resp.status);
       var data = await resp.json();
 
@@ -289,13 +294,13 @@ const isVladimir = city === 'vladimir';
       var bmHtml =
         '<div class="bm-wrap">' +
           '<div class="bm-dot"><div class="bm-ring"></div><span></span></div>' +
-          '<div class="bm-label">База · г. Владимир</div>' +
+          '<div class="bm-label">База · г. ' + label + '</div>' +
         '</div>';
       L.marker(data.center, {
         icon: L.divIcon({ className: 'leaflet-div-icon', html: bmHtml, iconSize: [0, 0], iconAnchor: [12, 12] }),
       }).addTo(map).bindPopup(
         '<div class="popup-title">База «Мир Бетона»</div>' +
-        '<div class="popup-city">г. Владимир</div>' +
+        '<div class="popup-city">' + label + '</div>' +
         '<a class="popup-tel" href="tel:+74922494891">+7 (4922) 49-48-91</a>',
         { closeButton: true, offset: [0, -14] }
       );
@@ -310,8 +315,8 @@ const isVladimir = city === 'vladimir';
       /* PNG fallback */
       try {
         var img = document.createElement('img');
-        img.src = '/maps/vladimir.png';
-        img.alt = 'Владимир';
+        img.src = '/maps/' + city + '.png';
+        img.alt = label;
         img.className = 'absolute inset-0 w-full h-full object-cover';
         img.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;';
         img.onload = function () {
@@ -337,7 +342,7 @@ const isVladimir = city === 'vladimir';
 
   /* ---- show/hide events ---- */
   window.addEventListener('delivery:show', function (e) {
-    if (e.detail && e.detail.slug === 'vladimir') {
+    if (e.detail && e.detail.slug === city) {
       self.style.display = 'block';
       if (loading && loading.style.display !== 'none') loading.style.display = 'none';
       if (map) setTimeout(function () { map.invalidateSize(); fitToBoundary(); }, 60);

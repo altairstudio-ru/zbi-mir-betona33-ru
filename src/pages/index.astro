@@ -22,7 +22,6 @@ const MAPS: Array<[string, string]> = [
   ['kovrov', 'Ковров'],
   ['gus-khrustalny', 'Гусь-Хрустальный'],
   ['yuryev-polsky', 'Юрьев-Польский'],
-  ['ivanovo', 'Ивановская область'],
 ];
 ---
 
@@ -169,7 +168,6 @@ const MAPS: Array<[string, string]> = [
             ['Ковров', 'регионы'],
             ['Гусь-Хрустальный', 'регионы'],
             ['Юрьев-Польский', 'регионы'],
-            ['Ивановская обл.', 'регионы'],
           ].map(([city, note], i) => (
             <li>
               <button
@@ -191,17 +189,8 @@ const MAPS: Array<[string, string]> = [
               <span>Карта зоны доставки</span>
               <span class="text-xs">нажмите на город, чтобы увидеть карту</span>
             </div>
-            <DeliveryMap city="vladimir" label="Владимир" />
-            {MAPS.filter(([slug]) => slug !== 'vladimir').map(([slug, alt]) => (
-              <img
-                data-map-img={slug}
-                src={`/maps/${slug}.png`}
-                alt={alt}
-                loading="lazy"
-                decoding="async"
-                class="absolute inset-0 w-full h-full object-cover hidden"
-                onerror="this.style.display='none';document.getElementById('map-placeholder')?.style.setProperty('display','flex')"
-              />
+            {MAPS.map(([slug, alt], i) => (
+              <DeliveryMap city={slug} label={alt} interactive active={i === 0} />
             ))}
           </div>
         </div>
@@ -309,22 +298,15 @@ const MAPS: Array<[string, string]> = [
   <script>
     const buttons = [...document.querySelectorAll('.delivery-city')];
     const placeholder = document.getElementById('map-placeholder');
-    const imgs = [...document.querySelectorAll('[data-map-img]')];
-    const mapContainer = document.querySelector('[data-delivery-map="vladimir"]');
-    const bySlug = Object.fromEntries(imgs.map(img => [img.dataset.mapImg, img]));
+    const mapContainers = [...document.querySelectorAll('[data-delivery-map]')];
 
     const show = slug => {
-      imgs.forEach(img => (img.style.display = 'none'));
-      if (mapContainer) mapContainer.style.display = 'none';
+      mapContainers.forEach(container => (container.style.display = 'none'));
       placeholder.style.display = 'flex';
-      if (slug === 'vladimir') {
-        if (mapContainer) {
-          mapContainer.style.display = 'block';
-          placeholder.style.display = 'none';
-        }
-        window.dispatchEvent(new CustomEvent('delivery:show', { detail: { slug } }));
-      } else if (bySlug[slug]) {
-        bySlug[slug].style.display = 'block';
+      window.dispatchEvent(new CustomEvent('delivery:show', { detail: { slug } }));
+      const target = mapContainers.find(c => c.dataset.deliveryMap === slug);
+      if (target) {
+        target.style.display = 'block';
         placeholder.style.display = 'none';
       }
     };
