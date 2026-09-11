@@ -41,11 +41,6 @@ from shapely.ops import unary_union, polygonize
 UA = "zbi-delivery-gen/1.0 (+https://zbi.mir-betona33.ru)"
 MIRRORS = [
     "https://overpass.kumi.systems/api/interpreter",
-    "https://overpass-api.de/api/interpreter",
-    "https://overpass.private.coffee/api/interpreter",
-    "https://overpass.osm.jp/api/interpreter",
-    "https://overpass.nchc.org.tw/api/interpreter",
-    "https://overpass.osm.ch/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
 ]
 
@@ -105,7 +100,7 @@ CACHE_MAX_AGE = 3600 * 24 * 60  # 60 days
 
 
 # ----------------------------------------------------------------------------- io
-def op(query, timeout=300, max_tries=3):
+def op(query, timeout=150, max_tries=2):
     """Run Overpass query with mirror fallback (direct POST, no proxy needed)."""
     last = None
     for attempt in range(max_tries):
@@ -173,14 +168,32 @@ def _polygon_from_ways(ways):
     return max(polys, key=lambda p: p.area)
 
 
-def _cached_or_fetch(cache_path, query):
+def _cached_or_fetch(cache_path, query, bbox=None):
     if os.path.exists(cache_path):
         age = time.time() - os.path.getmtime(cache_path)
         if age < CACHE_MAX_AGE:
             print("    from cache (%d s old)" % age, flush=True)
             return load_json(cache_path)
     print("    overpass fetch ...", flush=True)
-    d = op(query)
+    try:
+        d = op(query)
+    except RuntimeError:
+        # Storm fallback: split the bbox into 4 quadrants and fetch each as a
+        # light query, merging results. Small queries go through during storms
+        # that kill the big one.
+        if not bbox:
+            raise
+        print("    full query failed -> fetching 4 quadrants ...", flush=True)
+        merged_elements = []
+        for bq in _bbox_quadrants(bbox):
+            qq = query.replace(bbox, bq)
+            try:
+                dq = op(qq, timeout=150, max_tries=2)
+                merged_elements.extend(dq.get("elements", []))
+                print("      quadrant ok: %s" % bq, flush=True)
+            except RuntimeError as qe:
+                print("      quadrant FAILED %s: %s" % (bq, str(qe)[:80]), flush=True)
+        d = {"elements": merged_elements}
     # NEVER cache a storm-truncated empty response: Overpass sometimes returns a
     # well-formed 200 with elements:[] when the mirror died mid-query. Persisting
     # that poisons the cache -> permanently empty layer even after the storm passes.
@@ -230,10 +243,23 @@ def fetch_builtup_boundary(slug, lat, lon):
     return merged
 
 
-def _bbox_str(lat, lon):
-    dlat9 = FETCH_KM * 1000.0 / 111320.0
-    dlon9 = FETCH_KM * 1000.0 / (111320.0 * math.cos(math.radians(lat)))
+def _bbox_str(lat, lon, km=None):
+    km = km or FETCH_KM
+    dlat9 = km * 1000.0 / 111320.0
+    dlon9 = km * 1000.0 / (111320.0 * math.cos(math.radians(lat)))
     return "%.5f,%.5f,%.5f,%.5f" % (lat - dlat9, lon - dlon9, lat + dlat9, lon + dlon9)
+
+
+def _bbox_quadrants(bbox):
+    """Split 'minlat,minlon,maxlat,maxlon' into 4 quarter bboxes for storm-safe fetching."""
+    minlat, minlon, maxlat, maxlon = (float(v) for v in bbox.split(","))
+    mlat, mlon = (minlat + maxlat) / 2, (minlon + maxlon) / 2
+    return [
+        "%.5f,%.5f,%.5f,%.5f" % (minlat, minlon, mlat, mlon),
+        "%.5f,%.5f,%.5f,%.5f" % (minlat, mlon, mlat, maxlon),
+        "%.5f,%.5f,%.5f,%.5f" % (mlat, minlon, maxlat, mlon),
+        "%.5f,%.5f,%.5f,%.5f" % (mlat, mlon, maxlat, maxlon),
+    ]
 
 
 def fetch_features(slug, lat, lon):
@@ -244,25 +270,36 @@ def fetch_features(slug, lat, lon):
     (e.g. different simplification) does not hit Overpass again.
     """
     bbox = _bbox_str(lat, lon)
-    print("    bbox %s ..." % bbox, flush=True)
+    bbox_deco = _bbox_str(lat, lon, km=6.0)
+    print("    bbox %s (deco %s) ..." % (bbox, bbox_deco), flush=True)
 
     QUERIES = [
-        ("roads", '[out:json][timeout:300][maxsize:1073741824];'
+        ("roads", '[out:json][timeout:180][maxsize:1073741824];'
                   'way["highway"~"^(primary|secondary|tertiary)$"](%s);out geom;' % bbox),
-        ("water", '[out:json][timeout:300][maxsize:1073741824];'
+        ("water", '[out:json][timeout:180][maxsize:1073741824];'
                   'way["natural"="water"](%s);'
                   'way["waterway"="riverbank"](%s);'
-                  'way["waterway"="river"](%s);out geom;' % (bbox, bbox, bbox)),
-        ("greens", '[out:json][timeout:300][maxsize:1073741824];'
+                  'way["waterway"="river"](%s);out geom;' % (bbox_deco, bbox_deco, bbox_deco)),
+        ("greens", '[out:json][timeout:180][maxsize:1073741824];'
                    'way["landuse"~"^(grass|forest|meadow|village_green|recreation_ground|orchard)$"](%s);'
                    'way["leisure"~"^(park|garden|nature_reserve|playground)$"](%s);'
-                   'way["natural"~"^(wood|scrub)$"](%s);out geom;' % (bbox, bbox, bbox)),
+                   'way["natural"~"^(wood|scrub)$"](%s);out geom;' % (bbox_deco, bbox_deco, bbox_deco)),
     ]
     raw = {}
     for part, q in QUERIES:
         cx = os.path.join(CACHE_DIR, "features_%s_%s.json" % (slug, part))
-        raw[part] = _cached_or_fetch(cx, q)
-        print("    %s fetch done" % part, flush=True)
+        bbox_q = bbox if part == "roads" else bbox_deco
+        try:
+            raw[part] = _cached_or_fetch(cx, q, bbox_q)
+            print("    %s fetch done" % part, flush=True)
+        except RuntimeError as e:
+            # Decorative layers (water/greens) may fail during an Overpass storm.
+            # Don't abort the city build — leave them empty this run; they will be
+            # retried next run (nothing is cached for them). Roads must succeed.
+            if part == "roads":
+                raise
+            print("    WARN %s unavailable now (will retry later): %s" % (part, str(e)[:80]), flush=True)
+            raw[part] = {"elements": []}
 
     roads, water, waterways, greens = [], [], [], []
     for part, d in raw.items():
