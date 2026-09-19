@@ -19,7 +19,8 @@ const {
 
 const siteName = 'Мир Бетона';
 const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
----
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : new URL(ogImage, Astro.site).href;
+--->
 
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
@@ -30,13 +31,12 @@ const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
 <meta property="og:type" content={ogType} />
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={ogImage} />
+<meta property="og:image" content={ogImageUrl} />
 <meta property="og:url" content={canonical} />
 <meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content="ru_RU" />
 
 <!-- Yandex -->
-<meta name="yandex-verification" content="" />
 <meta name="geo.position" content="56.1322;40.4065" />
 <meta name="geo.region" content="RU-VLA" />
 <meta name="geo.placename" content="Владимир" />

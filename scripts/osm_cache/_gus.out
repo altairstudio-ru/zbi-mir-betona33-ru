@@ -1,0 +1,53 @@
+============================================================
+BUILD gus-khrustalny (Гусь-Хрустальный)  center 55.61500, 40.67087
+    from cache (1640 s old)
+    boundary area km2: 34.0  bounds: [40.5916, 55.5795, 40.715, 55.6498]
+    bbox 55.53415,40.52771,55.69585,40.81402 (deco 55.56110,40.57543,55.66890,40.76630) ...
+    from cache (1448 s old)
+    roads fetch done
+    from cache (1238 s old)
+    water fetch done
+    overpass fetch ...
+    ! overpass.kumi.systems: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.kumi.systems/api/interpreter
+    ! overpass.private.coffee: ReadTimeout HTTPSConnectionPool(host='overpass.private.coffee', port=443): Read timed out. (read timeo
+    ! overpass.osm.ch: empty elements (storm), trying next
+    ! overpass-api.de: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass-api.de/api/interpreter
+    ! overpass.kumi.systems: ReadTimeout HTTPSConnectionPool(host='overpass.kumi.systems', port=443): Read timed out. (read timeout
+    ! overpass.private.coffee: ReadTimeout HTTPSConnectionPool(host='overpass.private.coffee', port=443): Read timed out. (read timeo
+    ! overpass.osm.ch: empty elements (storm), trying next
+    ! overpass-api.de: ConnectionError HTTPSConnectionPool(host='overpass-api.de', port=443): Read timed out.
+    full query failed -> fetching 4 quadrants ...
+    ! overpass.kumi.systems: ReadTimeout HTTPSConnectionPool(host='overpass.kumi.systems', port=443): Read timed out. (read timeout
+    ! overpass.private.coffee: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.private.coffee/api/interpreter
+    ! overpass.osm.ch: empty elements (storm), trying next
+      quadrant ok: 55.56110,40.57543,55.61500,40.67086
+    ! overpass.kumi.systems: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.kumi.systems/api/interpreter
+    ! overpass.private.coffee: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.private.coffee/api/interpreter
+    ! overpass.osm.ch: empty elements (storm), trying next
+    ! overpass-api.de: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass-api.de/api/interpreter
+    ! overpass.kumi.systems: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.kumi.systems/api/interpreter
+    ! overpass.private.coffee: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.private.coffee/api/interpreter
+    ! overpass.osm.ch: empty elements (storm), trying next
+      quadrant ok: 55.56110,40.67086,55.61500,40.76630
+    ! overpass.kumi.systems: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.kumi.systems/api/interpreter
+    ! overpass.private.coffee: ReadTimeout HTTPSConnectionPool(host='overpass.private.coffee', port=443): Read timed out. (read timeo
+    ! overpass.osm.ch: empty elements (storm), trying next
+      quadrant ok: 55.61500,40.57543,55.66890,40.67086
+    ! overpass.kumi.systems: ReadTimeout HTTPSConnectionPool(host='overpass.kumi.systems', port=443): Read timed out. (read timeout
+    ! overpass.private.coffee: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass.private.coffee/api/interpreter
+    ! overpass.osm.ch: empty elements (storm), trying next
+    ! overpass-api.de: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass-api.de/api/interpreter
+    ! overpass.kumi.systems: HTTPError 502 Server Error: Bad Gateway for url: https://overpass.kumi.systems/api/interpreter
+    ! overpass.private.coffee: ReadTimeout HTTPSConnectionPool(host='overpass.private.coffee', port=443): Read timed out. (read timeo
+    ! overpass.osm.ch: empty elements (storm), trying next
+    ! overpass-api.de: HTTPError 504 Server Error: Gateway Timeout for url: https://overpass-api.de/api/interpreter
+      quadrant FAILED 55.61500,40.67086,55.66890,40.76630: Overpass failed for query: 504 Server Error: Gateway Timeout for url: https://ov
+    greens fetch done
+    fetched -> roads:123 water:0 waterways:5 greens:58
+    attempt 1: tol x1.00  raw 24.7 KB  gzip 6.9 KB  (target <= 60 KB)
+WROTE K:\zbi-mir-betona33-ru\public\delivery\gus-khrustalny.json
+raw  :   24.7 KB  gzip:    6.9 KB
+points: {'boundary': 67, 'roads': 253, 'water': 0, 'waterways': 75, 'greens': 308, 'rings': 360}
+elapsed 1982.3 s
+============================================================
+DONE in 1982.3 s

@@ -3,7 +3,7 @@
 """
 gen_delivery_data.py — delivery-zone datasets for zbi.mir-betona33.ru.
 Generates compact GeoJSON-like JSON per city:
-  public/delivery/{slug}.json   (slug: vladimir, sudogda, suzdal, raduzhny,
+  public/delivery/{slug}.json   (slug: vladimir, sudogda, suzdal,
                                  kovrov, gus-khrustalny, yuryev-polsky)
 
 Data sources: OpenStreetMap via Overpass (mirrors) + local shapely processing.
@@ -42,17 +42,18 @@ UA = "zbi-delivery-gen/1.0 (+https://zbi.mir-betona33.ru)"
 MIRRORS = [
     "https://overpass.kumi.systems/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
+    "https://overpass.osm.ch/api/interpreter",
+    "https://overpass-api.de/api/interpreter",
 ]
 
 
 # ----------------------------------------------------------------------------- config
-# badge list for `cities` layer — the 7 cities of the delivery area (no Ivanovo).
+# badge list for `cities` layer — the 6 cities of the delivery area (no Ivanovo).
 # Coordinates: OSM place=city/town nodes (fetched via Overpass node(id:...);out;).
 CITIES = [  # name, lat, lon
     ("Владимир", 56.1288899, 40.4075203),
     ("Судогда", 55.951570, 40.858689),
     ("Суздаль", 56.419391, 40.448789),
-    ("Радужный", 55.993959, 40.329441),
     ("Ковров", 56.374371, 41.311644),
     ("Гусь-Хрустальный", 55.614997, 40.670867),
     ("Юрьев-Польский", 56.497195, 39.678640),
@@ -67,7 +68,6 @@ CITY_CFG = {
     "vladimir":       {"name": "Владимир",         "rel": 1991003, "lat": 56.1288899, "lon": 40.4075203, "clip": "boundary", "builtup": False},
     "sudogda":        {"name": "Судогда",          "rel": 5713779, "lat": 55.951570,  "lon": 40.858689,  "clip": "belt",    "builtup": False},
     "suzdal":         {"name": "Суздаль",          "rel": 1390203, "lat": 56.419391,  "lon": 40.448789,  "clip": "belt",    "builtup": False},
-    "raduzhny":       {"name": "Радужный",         "rel": 3441002, "lat": 55.993959,  "lon": 40.329441,  "clip": "belt",    "builtup": False},
     "kovrov":         {"name": "Ковров",           "rel": 2350024, "lat": 56.374371,  "lon": 41.311644,  "clip": "belt",    "builtup": False},
     "gus-khrustalny": {"name": "Гусь-Хрустальный", "rel": 1582363, "lat": 55.614997,  "lon": 40.670867,  "clip": "belt",    "builtup": False},
     "yuryev-polsky":  {"name": "Юрьев-Польский",   "rel": None,    "lat": 56.497195,  "lon": 39.678640,  "clip": "belt",    "builtup": True},
@@ -112,7 +112,16 @@ def op(query, timeout=150, max_tries=2):
                     timeout=timeout,
                 )
                 r.raise_for_status()
-                return r.json()
+                d = r.json()
+                # Mirrors that answer 200 but come back empty mid-storm are
+                # useless — skip them so a live mirror gets a chance. (The
+                # storm guard below still refuses to persist empties.)
+                if not d.get("elements"):
+                    last = RuntimeError("empty elements from %s" % mirror)
+                    print("    ! %s: empty elements (storm), trying next" %
+                          mirror.split("//")[1].split("/")[0], flush=True)
+                    continue
+                return d
             except Exception as e:
                 last = e
                 print("    ! %s: %s %s" % (mirror.split("//")[1].split("/")[0],

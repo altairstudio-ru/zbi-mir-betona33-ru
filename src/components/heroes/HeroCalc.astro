@@ -75,6 +75,10 @@
             <button type="submit" class="w-full py-3.5 rounded-lg bg-[#E44D24] hover:bg-[#c93e18] text-white font-bold text-sm shadow-md transition-colors">
               Получить точный расчёт сметы →
             </button>
+            <label class="flex items-start gap-2 text-xs text-slate-600">
+              <input name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 flex-none" />
+              <span>Даю согласие на обработку персональных данных в соответствии с <a href="/privacy/" class="underline text-[#E44D24]">политикой конфиденциальности</a></span>
+            </label>
             <p id="hero-form-status" class="hidden text-sm font-medium"></p>
           </form>
         </div>
@@ -117,6 +121,11 @@
     heroForm.addEventListener('submit', async ev => {
       ev.preventDefault();
       const phone = heroForm.querySelector('input[name="phone"]').value.trim();
+      const consent = heroForm.querySelector('input[name="consent"]');
+      if (consent && !consent.checked) {
+        showStatus('Подтвердите согласие на обработку персональных данных', false);
+        return;
+      }
       if (!phone) {
         showStatus('Укажите номер телефона — и мы перезвоним', false);
         return;

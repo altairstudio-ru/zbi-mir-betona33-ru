@@ -179,12 +179,35 @@ const isInteractive = interactive;
   }
 
   /* ---- init ---- */
+  function loadStylesheet(href) {
+    if (document.querySelector('link[href="' + href + '"]')) return Promise.resolve();
+    return new Promise(function (resolve, reject) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      link.onload = resolve;
+      link.onerror = function () { reject(new Error('css ' + href)); };
+      document.head.appendChild(link);
+    });
+  }
+  function loadScript(src) {
+    if (window.L) return Promise.resolve();
+    return new Promise(function (resolve, reject) {
+      var s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = function () { reject(new Error('js ' + src)); };
+      document.head.appendChild(s);
+    });
+  }
+
   async function ensureInit() {
     if (initPromise) return initPromise;
     initPromise = (async function () {
-      var leafletMod = await import('leaflet');
-      var L = leafletMod.default || leafletMod;
-      await import('leaflet/dist/leaflet.css');
+      await loadStylesheet('/vendor/leaflet/leaflet.css');
+      await loadScript('/vendor/leaflet/leaflet.js');
+      var L = window.L;
+      if (!L) throw new Error('Leaflet недоступен');
 
       var resp = await fetch('/delivery/' + city + '.json');
       if (!resp.ok) throw new Error(resp.status);
