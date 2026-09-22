@@ -4,6 +4,14 @@
   "installCommand": "npm install -g pnpm && pnpm install",
   "buildCommand": "pnpm exec astro build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "zbi.mir-betona33.ru" }],
+      "destination": "https://zhbi.mir-betona33.ru/$1",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/(.*)",

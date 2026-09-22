@@ -394,7 +394,7 @@ const MAPS: Array<[string, string]> = [
         if (submit) submit.disabled = true;
         showStatus('Отправляем прайс...', true);
         try {
-          const r = await fetch('/api/lead', {
+          const r = await fetch('/api/lead/', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             body: JSON.stringify({ source: 'price', phone, email }),
