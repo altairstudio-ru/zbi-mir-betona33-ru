@@ -13,7 +13,7 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Прайс-лист ФБС — Мир Бетонных Изделий, Владимир</title>
+  <title>Прайс-лист ФБС — завод «Мир Бетона», Владимир</title>
   <meta name="robots" content="index,follow" />
   <style>
     :root { --brand: #E44D24; --ink: #1e293b; --muted: #64748b; --line: #e2e8f0; --soft: #f8fafc; }
@@ -25,9 +25,11 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
     .btn-back { background: #fff; color: var(--ink); border: 1px solid var(--line) !important; }
     .sheet { max-width: 820px; margin: 16px auto 40px; background: #fff; padding: 40px 44px; box-shadow: 0 2px 16px rgba(15,23,42,.08); }
     header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 3px solid var(--brand); padding-bottom: 18px; margin-bottom: 8px; }
+    .brand-row { display: flex; align-items: center; gap: 12px; }
     .brand { font-size: 20px; font-weight: 800; line-height: 1.2; }
     .brand span { color: var(--brand); }
     .brand small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+    .brand-badge { display: inline-block; background: var(--brand); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px; vertical-align: middle; letter-spacing: .04em; }
     .doc-meta { text-align: right; font-size: 12px; color: var(--muted); }
     h1 { font-size: 26px; margin: 18px 0 2px; }
     .subtitle { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
@@ -63,7 +65,16 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
 
   <div class="sheet">
     <header>
-      <div class="brand">Завод ЖБИ <span>«Мир Бетонных Изделий»</span><small>г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А</small></div>
+      <div class="brand-row">
+        <svg width="44" height="44" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0" aria-hidden="true">
+          <path d="M17 18V13C17 11.3431 18.3431 10 20 10C21.6569 10 23 11.3431 23 13V15.5" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M27 15.5V13C27 11.3431 28.3431 10 30 10C31.6569 10 33 11.3431 33 13V18" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M24 14L40 21L24 28L8 21L24 14Z" fill="#F97316"/>
+          <path d="M8 21L24 28V39L8 32V21Z" fill="#E44D24"/>
+          <path d="M24 28L40 21V32L24 39V28Z" fill="#C23814"/>
+        </svg>
+        <div class="brand">МИР БЕТОНА <span class="brand-badge">ЖБИ</span><small>Завод бетонных изделий · 600020, г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А</small><small><a href="tel:+74922604933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (4922) 60-49-33</a> · <a href="tel:+79308304933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (930) 830-49-33</a></small></div>
+      </div>
       <div class="doc-meta">Прайс-лист<br/>от {today}<br/>действует 14 дней</div>
     </header>
 
@@ -118,7 +129,11 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
         Отдел продаж<br/>Пн–Пт 8:00–17:00, отгрузка 24/7
       </div>
     </footer>
-    <div class="site">zhbi.mir-betona33.ru · ООО «Мир Бетонных Изделий» · Владимир</div>
+    <div class="site" style="line-height:1.7">
+      ООО «Мир Бетона 33» · ИНН 3329097979 · КПП 332901001 · ОГРН 1203300003500 от 23.04.2020 · ОКПО 46957973<br/>
+      Генеральный директор — Киселев Алексей Валериевич<br/>
+      600020, г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А · zhbi.mir-betona33.ru · sales@mir-betona33.ru
+    </div>
   </div>
 </body>
 </html>
