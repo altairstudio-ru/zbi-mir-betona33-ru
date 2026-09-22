@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-gen_delivery_data.py — delivery-zone datasets for zbi.mir-betona33.ru.
+gen_delivery_data.py — delivery-zone datasets for zhbi.mir-betona33.ru.
 Generates compact GeoJSON-like JSON per city:
   public/delivery/{slug}.json   (slug: vladimir, sudogda, suzdal,
                                  kovrov, gus-khrustalny, yuryev-polsky)
@@ -38,7 +38,7 @@ import requests
 from shapely.geometry import LineString, Polygon, MultiPolygon
 from shapely.ops import unary_union, polygonize
 
-UA = "zbi-delivery-gen/1.0 (+https://zbi.mir-betona33.ru)"
+UA = "zbi-delivery-gen/1.0 (+https://zhbi.mir-betona33.ru)"
 MIRRORS = [
     "https://overpass.kumi.systems/api/interpreter",
     "https://overpass.private.coffee/api/interpreter",
