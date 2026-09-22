@@ -35,7 +35,7 @@ const MAPS: Array<[string, string]> = [
     "name": "ООО «Мир Бетона 33»",
     "description": "Производство и поставка бетонных изделий (ЖБИ) во Владимире и области: ФБС, плиты перекрытия, товарный бетон, кольца, брусчатка, сваи, балки.",
     "url": "https://zhbi.mir-betona33.ru/",
-    "telephone": "+7 (4922) 49-48-91",
+    "telephone": ["+7 (4922) 60-49-33", "+7 (930) 830-49-33"],
     "email": "sales@mir-betona33.ru",
     "image": "https://zhbi.mir-betona33.ru/og-default.jpg",
     "priceRange": "₽₽",
@@ -269,11 +269,12 @@ const MAPS: Array<[string, string]> = [
     <div class="max-w-6xl mx-auto bg-card border border-border rounded-xl p-8 md:p-10 grid md:grid-cols-[1.4fr_1fr] gap-8 items-center">
       <div>
         <h2 class="text-3xl font-extrabold mb-3">Скачать прайс-лист</h2>
-        <p class="text-muted-foreground">Актуальные цены на ФБС, плиты, бетон и сопутствующие изделия. Без спама — только полезный документ.</p>
+        <p class="text-muted-foreground">Актуальные цены на ФБС — придут красивым письмом на вашу почту сразу после заявки. Без спама, прайс обновляем каждые 14 дней.</p>
+        <p class="text-muted-foreground mt-2 text-sm">Не хотите ждать письмо? <a href="/price-list/" class="text-primary font-medium underline">Открыть прайс на сайте или сохранить в PDF →</a></p>
       </div>
 <form id="price-form" class="flex flex-col gap-2">
-          <input name="phone" type="tel" required placeholder="+7 (___) ___-__-__" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
-          <input name="email" type="email" placeholder="Email для отправки прайса" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+          <input name="email" type="email" required placeholder="Email — куда отправить прайс" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+          <input name="phone" type="tel" placeholder="Телефон (необязательно, для уточнения)" class="px-3.5 py-3 border border-input rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
           <label class="flex items-start gap-2 text-xs text-muted-foreground">
             <input name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 flex-none" />
             <span>Даю согласие на обработку персональных данных в соответствии с <a href="/privacy/" class="text-primary underline">политикой конфиденциальности</a></span>
@@ -314,11 +315,12 @@ const MAPS: Array<[string, string]> = [
       <h2 class="text-3xl font-extrabold mb-3">Получите расчёт под ваш проект</h2>
       <p class="opacity-80 max-w-lg mx-auto mb-7">Опишите задачу — посчитаем объём, марку и стоимость за 1 рабочий день.</p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <Button href="tel:+74922494891" size="lg">Позвонить: +7 (4922) 49-48-91</Button>
+        <Button href="tel:+74922604933" size="lg">Позвонить: +7 (4922) 60-49-33</Button>
+        <Button href="tel:+79308304933" size="lg">Позвонить: +7 (930) 830-49-33</Button>
         <Button href="mailto:sales@mir-betona33.ru" size="lg" variant="outline">sales@mir-betona33.ru</Button>
       </div>
       <div class="mt-8 pt-6 border-t border-black/20 text-sm opacity-80">
-        Крупные заказы — индивидуальные условия. <a href="tel:+74922494891" class="text-white font-medium">Звоните</a> или пишите на <a href="mailto:sales@mir-betona33.ru" class="text-white font-medium">sales@mir-betona33.ru</a>
+        Крупные заказы — индивидуальные условия. <a href="tel:+74922604933" class="text-white font-medium">Звоните</a> <span class="opacity-60">/</span> <a href="tel:+79308304933" class="text-white font-medium">+7 (930) 830-49-33</a> или пишите на <a href="mailto:sales@mir-betona33.ru" class="text-white font-medium">sales@mir-betona33.ru</a>
       </div>
     </div>
   </section>
@@ -387,8 +389,8 @@ const MAPS: Array<[string, string]> = [
           showStatus('Подтвердите согласие на обработку персональных данных', false);
           return;
         }
-        if (!phone && !email) {
-          showStatus('Укажите телефон или email — куда отправить прайс', false);
+        if (!email) {
+          showStatus('Укажите email — на него придёт прайс-лист', false);
           return;
         }
         if (submit) submit.disabled = true;
@@ -401,13 +403,19 @@ const MAPS: Array<[string, string]> = [
           });
           const j = await r.json();
           if (j.ok) {
-            showStatus('Готово! Прайс уже летит на указанный контакт.', true);
+            if (j.priceMail === 'sent') {
+              showStatus('Готово! Прайс-лист отправлен на ' + email + '. Проверьте почту (иногда попадает в «Спам»).', true);
+            } else if (j.priceMail === 'failed') {
+              showStatus('Заявку приняли, но письмо не ушло. Позвоним и продублируем прайс по телефону.', true);
+            } else {
+              showStatus('Готово! Менеджер свяжется и пришлёт прайс.', true);
+            }
             priceForm.reset();
           } else {
             showStatus(j.error || 'Не удалось отправить', false);
           }
         } catch {
-          showStatus('Сервис временно недоступен. Позвоните: +7 (4922) 49-48-91', false);
+          showStatus('Сервис временно недоступен. Позвоните: +7 (4922) 60-49-33 или +7 (930) 830-49-33', false);
         }
         if (submit) submit.disabled = false;
       });

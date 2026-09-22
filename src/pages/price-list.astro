@@ -1,0 +1,124 @@
+---
+// src/pages/price-list.astro
+// Автономный прайс-лист ФБС: чистый A4 для печати / сохранения в PDF.
+// Данные — тот же products.ts, что и на сайте (единый источник цен).
+import { fbsBlocks, zbiProducts } from '../data/products';
+
+const today = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: 'long', year: 'numeric' });
+const fmt = (n: number) => n.toLocaleString('ru-RU');
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Прайс-лист ФБС — Мир Бетонных Изделий, Владимир</title>
+  <meta name="robots" content="index,follow" />
+  <style>
+    :root { --brand: #E44D24; --ink: #1e293b; --muted: #64748b; --line: #e2e8f0; --soft: #f8fafc; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; color: var(--ink); background: #eef1f5; }
+    .toolbar { max-width: 820px; margin: 16px auto 0; padding: 0 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .toolbar a, .toolbar button { font: inherit; font-size: 14px; padding: 9px 16px; border-radius: 8px; border: 0; cursor: pointer; text-decoration: none; display: inline-block; }
+    .btn-print { background: var(--brand); color: #fff; font-weight: 600; }
+    .btn-back { background: #fff; color: var(--ink); border: 1px solid var(--line) !important; }
+    .sheet { max-width: 820px; margin: 16px auto 40px; background: #fff; padding: 40px 44px; box-shadow: 0 2px 16px rgba(15,23,42,.08); }
+    header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 3px solid var(--brand); padding-bottom: 18px; margin-bottom: 8px; }
+    .brand { font-size: 20px; font-weight: 800; line-height: 1.2; }
+    .brand span { color: var(--brand); }
+    .brand small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+    .doc-meta { text-align: right; font-size: 12px; color: var(--muted); }
+    h1 { font-size: 26px; margin: 18px 0 2px; }
+    .subtitle { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+    thead th { background: var(--ink); color: #fff; text-align: left; padding: 9px 10px; font-weight: 600; }
+    thead th.num, td.num { text-align: right; }
+    tbody td { padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    tbody tr:nth-child(even) { background: var(--soft); }
+    td.mark { font-weight: 700; }
+    td.price { font-weight: 700; color: var(--brand); white-space: nowrap; }
+    .also { margin-top: 26px; }
+    .also h2 { font-size: 16px; margin: 0 0 10px; }
+    .also table td { border-bottom: 1px dashed var(--line); }
+    .also td:last-child { text-align: right; color: var(--muted); font-size: 12.5px; }
+    .note { margin-top: 26px; background: var(--soft); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 6px; padding: 14px 16px; font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+    footer { margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; font-size: 13px; }
+    footer a { color: var(--ink); text-decoration: none; font-weight: 600; }
+    footer .phones div { margin-bottom: 3px; }
+    footer .site { color: var(--muted); font-size: 12px; margin-top: 30px; text-align: center; }
+    @media print {
+      body { background: #fff; }
+      .toolbar { display: none; }
+      .sheet { box-shadow: none; margin: 0; max-width: none; padding: 0 4mm; }
+      @page { size: A4; margin: 12mm; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <button class="btn-print" type="button" onclick="window.print()">Скачать в PDF / распечатать</button>
+    <a class="btn-back" href="/#price">← Назад на сайт</a>
+  </div>
+
+  <div class="sheet">
+    <header>
+      <div class="brand">Завод ЖБИ <span>«Мир Бетонных Изделий»</span><small>г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А</small></div>
+      <div class="doc-meta">Прайс-лист<br/>от {today}<br/>действует 14 дней</div>
+    </header>
+
+    <h1>Фундаментные блоки стеновые (ФБС)</h1>
+    <p class="subtitle">Цены за штуку, руб. с НДС · склад и отгрузка во Владимире · паспорт партии на каждую машину</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Марка</th>
+          <th>Размер, мм (Д×Ш×В)</th>
+          <th class="num">Вес, кг</th>
+          <th class="num">Цена, ₽/шт</th>
+        </tr>
+      </thead>
+      <tbody>
+        {fbsBlocks.map(b => (
+          <tr>
+            <td class="mark">{b.mark}</td>
+            <td>{b.length}×{b.width}×{b.height}</td>
+            <td class="num">{fmt(b.weight)}</td>
+            <td class="price">{fmt(b.price)} ₽</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    <div class="also">
+      <h2>Также производим и поставляем</h2>
+      <table>
+        <tbody>
+          {zbiProducts.filter(p => !p.name.includes('ФБС')).map(p => (
+            <tr><td>{p.name}</td><td>{p.price}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      Цены ориенточные, без стоимости доставки. Итоговая смета зависит от объёма, расстояния и графика отгрузки —
+      зафиксируем её в договоре. Нестандартные ЖБИ по вашим чертежам — от 50 шт, срок от 7 рабочих дней.
+      Для подрядчиков — отсрочка и работа по 44-ФЗ.
+    </div>
+
+    <footer>
+      <div class="phones">
+        <div><a href="tel:+74922604933">+7 (4922) 60-49-33</a> — городской</div>
+        <div><a href="tel:+79308304933">+7 (930) 830-49-33</a> — мобильный</div>
+        <div><a href="mailto:sales@mir-betona33.ru">sales@mir-betona33.ru</a></div>
+      </div>
+      <div style="text-align:right">
+        Отдел продаж<br/>Пн–Пт 8:00–17:00, отгрузка 24/7
+      </div>
+    </footer>
+    <div class="site">zhbi.mir-betona33.ru · ООО «Мир Бетонных Изделий» · Владимир</div>
+  </div>
+</body>
+</html>

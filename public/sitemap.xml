@@ -7,6 +7,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://zhbi.mir-betona33.ru/price-list/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://zhbi.mir-betona33.ru/privacy/</loc>
     <lastmod>2026-09-19</lastmod>
     <changefreq>yearly</changefreq>
