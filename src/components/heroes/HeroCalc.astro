@@ -6,53 +6,53 @@ import { fbsBlocks } from '../../data/products';
 const customValue = 'Нестандартные размеры (по чертежу)';
 ---
 
-<section class="relative pt-12 pb-20 md:pt-16 md:pb-24 bg-slate-50 border-b border-slate-200 overflow-hidden">
+<section class="relative pt-12 pb-20 md:pt-16 md:pb-24 bg-muted/40 border-b border-border overflow-hidden">
   <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
 
       <!-- Левая колонка -->
       <div class="lg:col-span-6 space-y-6 text-left">
-        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-orange-100 text-orange-900 text-xs font-semibold">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-primary/10 text-primary text-xs font-semibold">
           Завод ЖБИ «Мир Бетона», Владимир
         </div>
 
-        <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        <h1 class="text-3xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight">
           Комплексное снабжение объектов ЖБИ конструкциями
         </h1>
 
-        <p class="text-base sm:text-lg text-slate-600 leading-relaxed">
+        <p class="text-base sm:text-lg text-muted-foreground leading-relaxed">
           Поставки напрямую от производителя во Владимире. Стандартные позиции в наличии на складе, нестандартные ЖБИ — изготовим по вашим чертежам за 5–7 дней.
         </p>
 
         <!-- Метрики списком -->
-        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-slate-200">
+        <div class="grid grid-cols-3 gap-4 pt-4 border-t border-border">
           <div>
-            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">18 лет</div>
-            <div class="text-xs text-slate-500 mt-0.5">на рынке ЖБИ</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-foreground">18 лет</div>
+            <div class="text-xs text-muted-foreground mt-0.5">на рынке ЖБИ</div>
           </div>
           <div>
-            <div class="text-2xl sm:text-3xl font-extrabold text-[#E44D24]">24/7</div>
-            <div class="text-xs text-slate-500 mt-0.5">отгрузка партий</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-primary">24/7</div>
+            <div class="text-xs text-muted-foreground mt-0.5">отгрузка партий</div>
           </div>
           <div>
-            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900">12 авто</div>
-            <div class="text-xs text-slate-500 mt-0.5">свой автопарк</div>
+            <div class="text-2xl sm:text-3xl font-extrabold text-foreground">12 авто</div>
+            <div class="text-xs text-muted-foreground mt-0.5">свой автопарк</div>
           </div>
         </div>
       </div>
 
       <!-- Правая колонка: Форма заявки с расчётом -->
       <div class="lg:col-span-6">
-        <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-xl border border-slate-200">
-          <div class="border-b border-slate-100 pb-4 mb-5">
-            <h3 class="text-lg font-bold text-slate-900">Заявка на расчёт с доставкой</h3>
-            <p class="text-xs text-slate-500 mt-1">Выберите позицию и количество — посчитаем предварительно, инженер перезвонит в течение 15 минут</p>
+        <div class="bg-card rounded-2xl p-6 sm:p-8 shadow-xl border border-border">
+          <div class="border-b border-border pb-4 mb-5">
+            <h3 class="text-lg font-bold text-card-foreground">Заявка на расчёт с доставкой</h3>
+            <p class="text-xs text-muted-foreground mt-1">Выберите позицию и количество — посчитаем предварительно, инженер перезвонит в течение 15 минут</p>
           </div>
 
           <form id="hero-form" class="space-y-4">
             <div>
-              <label for="hero-product" class="block text-xs font-semibold text-slate-700 mb-1">Позиция:</label>
-              <select id="hero-product" name="product" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm bg-white focus:outline-none focus:border-[#E44D24]">
+              <label for="hero-product" class="block text-xs font-semibold text-foreground/80 mb-1">Позиция:</label>
+              <select id="hero-product" name="product" class="w-full px-3.5 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:border-primary">
                 {fbsBlocks.map(b => (
                   <option value={b.mark} data-price={b.price}>
                     {b.mark} · {b.length}×{b.width}×{b.height} мм · {b.price.toLocaleString('ru-RU')} ₽/шт
@@ -60,43 +60,43 @@ const customValue = 'Нестандартные размеры (по черте�
                 ))}
                 <option value={customValue} data-price="">{customValue} — расчёт индивидуально</option>
               </select>
-              <p id="hero-unit-price" class="text-[11px] text-slate-500 mt-1"></p>
+              <p id="hero-unit-price" class="text-[11px] text-muted-foreground mt-1"></p>
             </div>
 
             <div class="grid grid-cols-2 gap-3">
               <div>
-                <label for="hero-qty" class="block text-xs font-semibold text-slate-700 mb-1">Количество, шт:</label>
-                <input id="hero-qty" name="quantity" type="number" inputmode="numeric" min="1" step="1" value="10" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-[#E44D24]" />
+                <label for="hero-qty" class="block text-xs font-semibold text-foreground/80 mb-1">Количество, шт:</label>
+                <input id="hero-qty" name="quantity" type="number" inputmode="numeric" min="1" step="1" value="10" class="w-full px-3.5 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm focus:outline-none focus:border-primary" />
               </div>
               <div>
-                <span class="block text-xs font-semibold text-slate-700 mb-1">Предварительно:</span>
-                <div id="hero-total" class="px-3.5 py-2.5 rounded-lg bg-slate-50 border border-slate-200 text-sm font-bold text-slate-900 h-[42px] leading-none flex items-center">—</div>
+                <span class="block text-xs font-semibold text-foreground/80 mb-1">Предварительно:</span>
+                <div id="hero-total" class="px-3.5 py-2.5 rounded-lg bg-muted border border-border text-sm font-bold text-foreground h-[42px] leading-none flex items-center">—</div>
               </div>
             </div>
 
             <div>
-              <label for="hero-city" class="block text-xs font-semibold text-slate-700 mb-1">Куда доставлять (город / район):</label>
-              <input id="hero-city" name="city" type="text" placeholder="г. Владимир, пос. Боголюбово..." class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-[#E44D24]" />
+              <label for="hero-city" class="block text-xs font-semibold text-foreground/80 mb-1">Куда доставлять (город / район):</label>
+              <input id="hero-city" name="city" type="text" placeholder="г. Владимир, пос. Боголюбово..." class="w-full px-3.5 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
             </div>
 
             <div>
-              <label for="hero-comment" class="block text-xs font-semibold text-slate-700 mb-1">Комментарий (необязательно):</label>
-              <textarea id="hero-comment" name="comment" rows="2" placeholder="Сроки, разгрузка, реквизиты для счёта..." class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-[#E44D24] resize-none"></textarea>
+              <label for="hero-comment" class="block text-xs font-semibold text-foreground/80 mb-1">Комментарий (необязательно):</label>
+              <textarea id="hero-comment" name="comment" rows="2" placeholder="Сроки, разгрузка, реквизиты для счёта..." class="w-full px-3.5 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary resize-none"></textarea>
             </div>
 
             <div>
-              <label for="hero-phone" class="block text-xs font-semibold text-slate-700 mb-1">Ваш номер телефона:</label>
-              <input id="hero-phone" name="phone" type="tel" required placeholder="+7 (___) ___-__-__" class="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 text-sm focus:outline-none focus:border-[#E44D24]" />
+              <label for="hero-phone" class="block text-xs font-semibold text-foreground/80 mb-1">Ваш номер телефона:</label>
+              <input id="hero-phone" name="phone" type="tel" required placeholder="+7 (___) ___-__-__" class="w-full px-3.5 py-2.5 rounded-lg border border-input bg-background text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:border-primary" />
             </div>
 
-            <button type="submit" class="w-full py-3.5 rounded-lg bg-[#E44D24] hover:bg-[#c93e18] text-white font-bold text-sm shadow-md transition-colors">
+            <button type="submit" class="w-full py-3.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-sm shadow-md transition-colors">
               Отправить заявку →
             </button>
-            <label class="flex items-start gap-2 text-xs text-slate-600">
-              <input name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 flex-none" />
-              <span>Даю согласие на обработку персональных данных в соответствии с <a href="/privacy/" class="underline text-[#E44D24]">политикой конфиденциальности</a></span>
+            <label class="flex items-start gap-2 text-xs text-muted-foreground">
+              <input name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 flex-none accent-[#E44D24]" />
+              <span>Даю согласие на обработку персональных данных в соответствии с <a href="/privacy/" class="underline text-primary">политикой конфиденциальности</a></span>
             </label>
-            <p class="text-[11px] text-slate-400 leading-snug">Предварительная сумма указана без доставки и НДС — точную смету зафиксировает инженер.</p>
+            <p class="text-[11px] text-muted-foreground/70 leading-snug">Предварительная сумма указана без доставки и НДС — точную смету зафиксировает инженер.</p>
             <p id="hero-form-status" class="hidden text-sm font-medium"></p>
           </form>
         </div>

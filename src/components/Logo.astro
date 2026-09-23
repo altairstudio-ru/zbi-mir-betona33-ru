@@ -32,14 +32,14 @@ const { variant = 'full', class: className = '' } = Astro.props;
   {variant !== 'icon' && (
     <div class="flex flex-col text-left">
       <div class="flex items-center gap-2">
-        <span class={`font-black text-lg tracking-tight leading-none ${variant === 'white' ? 'text-white' : 'text-slate-900 group-hover:text-[#E44D24] transition-colors'}`}>
+        <span class={`font-black text-lg tracking-tight leading-none ${variant === 'white' ? 'text-white' : 'text-foreground group-hover:text-primary transition-colors'}`}>
           МИР БЕТОНА
         </span>
         <span class="px-1.5 py-0.5 rounded bg-[#E44D24] text-white text-[10px] font-black tracking-wider uppercase leading-none">
           ЖБИ
         </span>
       </div>
-      <span class={`text-[10px] font-semibold tracking-wider uppercase mt-1 leading-none ${variant === 'white' ? 'text-slate-400' : 'text-slate-500'}`}>
+      <span class={`text-[10px] font-semibold tracking-wider uppercase mt-1 leading-none ${variant === 'white' ? 'text-slate-400' : 'text-muted-foreground'}`}>
         Завод бетонных изделий
       </span>
     </div>

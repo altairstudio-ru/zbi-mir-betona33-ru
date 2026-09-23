@@ -4,6 +4,7 @@
    ============================================ */
 
 :root {
+  color-scheme: light;
   --background: 0 0% 100%;
   --foreground: 222 47% 7%;
 
@@ -30,4 +31,32 @@
   --ring: 13 78% 52%;
 
   --radius: 0.5rem;
+}
+
+.dark {
+  color-scheme: dark;
+  --background: 222 33% 9%;
+  --foreground: 210 40% 96%;
+
+  --card: 222 30% 12%;
+  --card-foreground: 210 40% 96%;
+
+  --primary: 13 78% 55%;
+  --primary-foreground: 0 0% 100%;
+
+  --secondary: 217 25% 20%;
+  --secondary-foreground: 210 40% 96%;
+
+  --muted: 217 25% 18%;
+  --muted-foreground: 215 18% 65%;
+
+  --accent: 13 68% 50%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 217 25% 22%;
+  --input: 217 25% 26%;
+  --ring: 13 78% 55%;
 }

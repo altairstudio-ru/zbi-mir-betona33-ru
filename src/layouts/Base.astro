@@ -27,6 +27,15 @@ const headerLinks = [
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script is:inline>
+    (() => {
+      try {
+        const stored = localStorage.getItem('theme');
+        const dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.classList.toggle('dark', dark);
+      } catch { /* localStorage unavailable — stay light */ }
+    })();
+  </script>
   <SEO title={title} description={description} canonical={canonical} />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 </head>
