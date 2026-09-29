@@ -180,6 +180,7 @@ const customValue = 'Нестандартные размеры (по черте�
         const j = await r.json();
         if (j.ok) {
           showStatus('Заявка принята! Инженер перезвонит в течение 15 минут.', true);
+          if (window.__ymGoal) window.__ymGoal('lead_hero');
           heroForm.reset();
           recalc();
         } else {

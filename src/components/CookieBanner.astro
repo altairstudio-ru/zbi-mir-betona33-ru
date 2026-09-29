@@ -1,0 +1,74 @@
+---
+// src/components/CookieBanner.astro
+// Баннер согласия на cookie (152-ФЗ). Яндекс.Метрика (счётчик 62139022) грузится
+// ТОЛЬКО после нажатия «Принять»; выбор хранится в localStorage ('cookie-consent').
+const COUNTER_ID = 62139022;
+---
+
+<div
+  id="cookie-banner"
+  class="hidden fixed inset-x-0 bottom-0 z-[60] border-t border-border bg-card text-card-foreground shadow-2xl"
+  role="dialog"
+  aria-modal="false"
+  aria-label="Согласие на обработку файлов cookie"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+    <p class="text-sm text-muted-foreground flex-1">
+      Мы используем файлы cookie: необходимые — для работы сайта, аналитические (Яндекс.Метрика) —
+      только после вашего согласия и для улучшения работы сайта. Подробнее — в
+      <a href="/privacy/" class="text-primary underline whitespace-nowrap">политике конфиденциальности</a>.
+    </p>
+    <div class="flex gap-2 flex-none">
+      <button id="cookie-decline" type="button" class="px-4 py-2 rounded-lg border border-border text-sm font-medium text-muted-foreground hover:bg-muted transition-colors">
+        Отклонить
+      </button>
+      <button id="cookie-accept" type="button" class="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-bold hover:bg-primary/90 transition-colors">
+        Принять
+      </button>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ COUNTER_ID }}>
+  let consent = null;
+  try { consent = localStorage.getItem('cookie-consent'); } catch { /* приватный режим */ }
+
+  function loadMetrika() {
+    if (window.__mcLoaded) return;
+    window.__mcLoaded = true;
+    const w = window;
+    w.ym = w.ym || function () { (w.ym.a = w.ym.a || []).push(arguments); };
+    w.ym.l = 1 * new Date();
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://mc.yandex.ru/metrika/tag.js';
+    document.head.appendChild(s);
+    w.ym(COUNTER_ID, 'init', {
+      clickmap: true,
+      trackLinks: true,
+      accurateTrackBounce: true,
+      webvisor: true,
+    });
+  }
+
+  // Помечать конверсии можно только когда Метрика реально загружена (ym появляется в loadMetrika).
+  window.__ymGoal = function (name) {
+    try { if (window.ym) window.ym(COUNTER_ID, 'reachGoal', name); } catch { /* ignore */ }
+  };
+
+  function decide(value) {
+    try { localStorage.setItem('cookie-consent', value); } catch { /* ignore */ }
+    document.getElementById('cookie-banner')?.classList.add('hidden');
+    if (value === 'granted') loadMetrika();
+  }
+  window.__cookieDecide = decide;
+
+  document.getElementById('cookie-accept')?.addEventListener('click', () => decide('granted'));
+  document.getElementById('cookie-decline')?.addEventListener('click', () => decide('declined'));
+
+  if (consent === 'granted') {
+    loadMetrika();
+  } else if (!consent) {
+    document.getElementById('cookie-banner')?.classList.remove('hidden');
+  }
+</script>

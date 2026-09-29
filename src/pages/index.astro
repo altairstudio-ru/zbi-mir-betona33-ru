@@ -48,7 +48,7 @@ const MAPS: Array<[string, string]> = [
     },
     "geo": { "@type": "GeoCoordinates", "latitude": 56.1322, "longitude": 40.4065 },
     "areaServed": "Владимирская область",
-    "openingHours": "Mo-Fr 08:00-18:00",
+    "openingHours": "Mo-Su 07:00-20:00",
     "sameAs": []
   })} />
   <!-- HERO (вариант 2: экспресс-калькулятор/квиз) -->
@@ -87,7 +87,7 @@ const MAPS: Array<[string, string]> = [
   </section>
 
   <!-- FBS TABLE -->
-  <section id="sizes" class="py-16 px-6 bg-muted">
+  <section id="sizes" class="py-16 px-6 bg-muted scroll-mt-24">
     <div class="max-w-6xl mx-auto">
       <div class="max-w-2xl mb-10">
         <div class="text-sm font-semibold text-primary uppercase tracking-wider mb-2">Сортамент</div>
@@ -403,6 +403,7 @@ const MAPS: Array<[string, string]> = [
           });
           const j = await r.json();
           if (j.ok) {
+            if (window.__ymGoal) window.__ymGoal('lead_price');
             if (j.priceMail === 'sent') {
               showStatus('Готово! Прайс-лист отправлен на ' + email + '. Проверьте почту (иногда попадает в «Спам»).', true);
             } else if (j.priceMail === 'failed') {

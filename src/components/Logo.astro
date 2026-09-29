@@ -9,16 +9,37 @@ const { variant = 'full', class: className = '' } = Astro.props;
 ---
 
 <a href="/" class={`inline-flex items-center gap-3 group focus:outline-none ${className}`} aria-label="Мир Бетона — Завод ЖБИ">
-  <!-- Единый миксер-логотип группы «Мир Бетона» (тёмная иконка для светлой шапки, светлая для тёмного футера) -->
+  <!-- Единый миксер-логотип группы «Мир Бетона»: тёмный знак — для светлой шапки, светлый — для тёмного футера и тёмной темы шапки -->
   <div class="relative h-10 flex-shrink-0 transition-transform duration-200 group-hover:scale-105">
-    <img
-      src={variant === 'white' ? '/mixer-light.png' : '/mixer-dark.png'}
-      alt=""
-      width="105"
-      height="65"
-      class="h-10 w-auto drop-shadow-sm"
-      loading="eager"
-    />
+    {variant === 'white' ? (
+      <img
+        src="/mixer-light.png"
+        alt=""
+        width="105"
+        height="65"
+        class="h-10 w-auto drop-shadow-sm"
+        loading="eager"
+      />
+    ) : (
+      <>
+        <img
+          src="/mixer-dark.png"
+          alt=""
+          width="105"
+          height="65"
+          class="h-10 w-auto drop-shadow-sm dark:hidden"
+          loading="eager"
+        />
+        <img
+          src="/mixer-light.png"
+          alt=""
+          width="105"
+          height="65"
+          class="h-10 w-auto drop-shadow-sm hidden dark:block"
+          loading="eager"
+        />
+      </>
+    )}
   </div>
 
   {variant !== 'icon' && (

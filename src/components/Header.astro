@@ -40,7 +40,7 @@ const telHref = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
 
     <div class="flex items-center gap-2 sm:gap-3">
       {phones.length > 0 && (
-        <div class="flex flex-col items-end leading-tight">
+        <div class="hidden sm:flex flex-col items-end leading-tight">
           {phones.map((p, i) => (
             <a href={telHref(p)} class:list={[i === 0 ? 'font-bold text-primary text-sm sm:text-lg' : 'text-xs text-muted-foreground hover:text-primary', 'whitespace-nowrap']}>
               {p}
@@ -68,7 +68,7 @@ const telHref = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
         aria-label="Открыть меню"
         aria-expanded="false"
         aria-controls="mobile-menu"
-        class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border text-foreground hover:bg-muted transition-colors"
+        class="lg:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border text-foreground hover:bg-muted transition-colors flex-shrink-0"
       >
         <svg id="icon-open" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -98,6 +98,11 @@ const telHref = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
           ))}
         </li>
       )}
+      <li>
+        <a href="/privacy/" class="block px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-primary transition-colors">
+          Политика конфиденциальности
+        </a>
+      </li>
     </ul>
   </div>
 </header>
