@@ -148,7 +148,7 @@ if ($leadType === 'price' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 <div style="font-family:Arial,Helvetica,sans-serif;background:#eef1f5;padding:24px 8px;">
   <div style="max-width:640px;margin:0 auto;background:#ffffff;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;">
     <div style="background:#1e293b;color:#ffffff;padding:22px 28px;">
-      <div style="font-size:19px;font-weight:800;">МИР БЕТОНА <span style="display:inline-block;background:#E44D24;color:#fff;font-size:12px;font-weight:800;padding:2px 6px;border-radius:4px;vertical-align:middle;">ЖБИ</span></div>
+      <div style="font-size:19px;font-weight:800;"><img src="https://zhbi.mir-betona33.ru/mixer-light.png" alt="Мир Бетона" width="71" height="44" style="display:inline-block;vertical-align:middle;margin-right:10px;"/>МИР БЕТОНА <span style="display:inline-block;background:#E44D24;color:#fff;font-size:12px;font-weight:800;padding:2px 6px;border-radius:4px;vertical-align:middle;">ЖБИ</span></div>
       <div style="font-size:12.5px;opacity:.75;margin-top:4px;">Завод бетонных изделий · 600020, г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А · прайс от $today, действует 14 дней</div>
     </div>
     <div style="padding:24px 28px 8px;">
@@ -173,7 +173,7 @@ if ($leadType === 'price' && filter_var($email, FILTER_VALIDATE_EMAIL)) {
       <a href="tel:+74922604933" style="color:#1e293b;text-decoration:none;">+7 (4922) 60-49-33</a> ·
       <a href="tel:+79308304933" style="color:#1e293b;text-decoration:none;">+7 (930) 830-49-33</a> ·
       <a href="mailto:sales@mir-betona33.ru" style="color:#E44D24;text-decoration:none;">sales@mir-betona33.ru</a><br/>
-      <span style="font-size:12.5px;color:#64748b;">Пн–Пт 8:00–17:00 · отгрузка 24/7 · паспорт партии на каждую машину</span><br/>
+      <span style="font-size:12.5px;color:#64748b;">Ежедневно 7:00–20:00 · отгрузка 24/7 · паспорт партии на каждую машину</span><br/>
       <span style="font-size:11.5px;color:#94a3b8;">ООО «Мир Бетона 33» · ИНН 3329097979 · КПП 332901001 · ОГРН 1203300003500 · 600020, г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А</span>
     </div>
   </div>
