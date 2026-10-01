@@ -22,8 +22,8 @@ const phones = (Array.isArray(phone) ? phone : phone ? [phone] : []).filter(Bool
 const telHref = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
 ---
 
-<header class:list={['sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border', className]}>
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 sm:py-4 flex items-center justify-between gap-3">
+<header class:list={['sticky top-0 z-50 bg-background/95 backdrop-blur-md border-b border-border px-4 sm:px-6', className]}>
+  <div class="max-w-7xl mx-auto py-3.5 sm:py-4 flex items-center justify-between gap-3">
     <Logo />
 
     <nav class="hidden lg:flex" aria-label="Основное меню">
@@ -81,7 +81,7 @@ const telHref = (p: string) => `tel:${p.replace(/[^0-9+]/g, '')}`;
   </div>
 
   <div id="mobile-menu" class="hidden lg:hidden border-t border-border">
-    <ul class="px-4 sm:px-6 py-4 space-y-1 list-none">
+    <ul class="py-4 space-y-1 list-none">
       {links.map(link => (
         <li>
           <a href={link.href} class="block px-3 py-2.5 rounded-lg font-medium text-muted-foreground hover:bg-muted hover:text-primary transition-colors">

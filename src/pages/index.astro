@@ -4,6 +4,7 @@ import Section from '../components/Section.astro';
 import Button from '../components/Button.astro';
 import HeroCalc from '../components/heroes/HeroCalc.astro';
 import DeliveryMap from '../components/delivery/DeliveryMap.astro';
+import ProductionMap from '../components/ProductionMap.astro';
 import {
   zbiProducts,
   fbsBlocks,
@@ -310,18 +311,33 @@ const MAPS: Array<[string, string]> = [
   </section>
 
   <!-- FINAL CTA -->
-  <section id="contact" class="py-16 px-6 bg-secondary text-secondary-foreground text-center">
-    <div class="max-w-2xl mx-auto">
-      <h2 class="text-3xl font-extrabold mb-3">Получите расчёт под ваш проект</h2>
-      <p class="opacity-80 max-w-lg mx-auto mb-7">Опишите задачу — посчитаем объём, марку и стоимость за 1 рабочий день.</p>
-      <div class="flex flex-wrap gap-3 justify-center">
-        <Button href="tel:+74922604933" size="lg">Позвонить: +7 (4922) 60-49-33</Button>
-        <Button href="tel:+79308304933" size="lg">Позвонить: +7 (930) 830-49-33</Button>
-        <Button href="mailto:sales@mir-betona33.ru" size="lg" variant="outline">sales@mir-betona33.ru</Button>
+  <section id="contact" class="py-16 px-6 bg-secondary text-secondary-foreground">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-10 items-center">
+      <div class="text-center md:text-left">
+        <h2 class="text-3xl font-extrabold mb-3">Получите расчёт под ваш проект</h2>
+        <p class="opacity-80 max-w-lg mx-auto md:mx-0 mb-7">Опишите задачу — посчитаем объём, марку и стоимость за 1 рабочий день.</p>
+        <form id="contact-form" class="mx-auto md:mx-0 max-w-md space-y-3 text-left">
+          <div class="flex flex-col sm:flex-row gap-3">
+            <input name="phone" type="tel" required inputmode="tel" placeholder="Телефон" class="flex-1 px-3.5 py-3 rounded-lg bg-white/10 border border-white/25 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary" />
+            <input name="comment" type="text" placeholder="Что нужно" class="flex-[1.4] px-3.5 py-3 rounded-lg bg-white/10 border border-white/25 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-primary" />
+          </div>
+          <label class="flex items-start gap-2 text-xs opacity-75">
+            <input name="consent" type="checkbox" required class="mt-0.5 h-4 w-4 flex-none accent-[#E44D24]" />
+            <span>Даю согласие на обработку персональных данных в соответствии с <a href="/privacy/" class="underline">политикой конфиденциальности</a></span>
+          </label>
+          <Button type="submit" variant="primary">Получить расчёт</Button>
+          <p id="contact-form-status" class="hidden text-sm font-medium"></p>
+        </form>
+        <div class="mt-6 flex flex-wrap items-center justify-center md:justify-start gap-x-6 gap-y-2 text-sm">
+          <a href="tel:+74922604933" class="inline-flex items-center gap-2 font-semibold hover:underline"><svg class="w-4 h-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+7 (4922) 60-49-33</a>
+          <a href="tel:+79308304933" class="inline-flex items-center gap-2 font-semibold hover:underline"><svg class="w-4 h-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>+7 (930) 830-49-33</a>
+          <a href="mailto:sales@mir-betona33.ru" class="inline-flex items-center gap-2 font-semibold hover:underline"><svg class="w-4 h-4 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>sales@mir-betona33.ru</a>
+        </div>
+        <div class="mt-6 text-sm opacity-75">
+          Крупные заказы — индивидуальные условия: обсудим объём и график отгрузки отдельно.
+        </div>
       </div>
-      <div class="mt-8 pt-6 border-t border-black/20 text-sm opacity-80">
-        Крупные заказы — индивидуальные условия. <a href="tel:+74922604933" class="text-white font-medium">Звоните</a> <span class="opacity-60">/</span> <a href="tel:+79308304933" class="text-white font-medium">+7 (930) 830-49-33</a> или пишите на <a href="mailto:sales@mir-betona33.ru" class="text-white font-medium">sales@mir-betona33.ru</a>
-      </div>
+      <ProductionMap />
     </div>
   </section>
 
@@ -367,6 +383,52 @@ const MAPS: Array<[string, string]> = [
         fbsBtn.dataset.expanded = expanded ? '0' : '1';
         if (label) label.textContent = expanded ? `Показать все ${rows.length} размеров` : 'Свернуть';
         if (chevron) chevron.style.transform = expanded ? '' : 'rotate(180deg)';
+      });
+    }
+
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      const cStatus = document.getElementById('contact-form-status');
+      const cSubmit = contactForm.querySelector('button[type="submit"]');
+      const showCStatus = (text, ok) => {
+        cStatus.textContent = text;
+        cStatus.classList.remove('hidden');
+        cStatus.classList.toggle('text-emerald-300', ok);
+        cStatus.classList.toggle('text-red-300', !ok);
+      };
+      contactForm.addEventListener('submit', async ev => {
+        ev.preventDefault();
+        const phone = contactForm.querySelector('input[name="phone"]').value.trim();
+        const comment = contactForm.querySelector('input[name="comment"]').value.trim();
+        const consent = contactForm.querySelector('input[name="consent"]');
+        if (consent && !consent.checked) {
+          showCStatus('Подтвердите согласие на обработку персональных данных', false);
+          return;
+        }
+        if (!phone) {
+          showCStatus('Укажите номер телефона — по нему свяжемся с вами', false);
+          return;
+        }
+        if (cSubmit) cSubmit.disabled = true;
+        showCStatus('Отправляем заявку...', true);
+        try {
+          const r = await fetch('/api/lead/', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ source: 'contact', phone, comment }),
+          });
+          const j = await r.json();
+          if (j.ok) {
+            if (window.__ymGoal) window.__ymGoal('lead_contact');
+            showCStatus('Заявка принята! Позвоним в рабочее время (ежедневно 7:00–20:00) и посчитаем.', true);
+            contactForm.reset();
+          } else {
+            showCStatus(j.error || 'Не удалось отправить', false);
+          }
+        } catch {
+          showCStatus('Сервис временно недоступен. Позвоните: +7 (4922) 60-49-33', false);
+        }
+        if (cSubmit) cSubmit.disabled = false;
       });
     }
 

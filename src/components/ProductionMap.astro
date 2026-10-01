@@ -1,0 +1,67 @@
+---
+// src/components/ProductionMap.astro
+// Карта производства (Яндекс) в блоке контактов. Как на mindal.beauty: iframe грузится
+// лениво (IntersectionObserver) и ТОЛЬКО после согласия на cookie ('cookie-consent' = granted).
+// Точка: ООО «Мир Бетона 33», пос. Боголюбово, ул. Ленина, 2К — карточка организации в Яндекс.Картах.
+const OID = '19592889795';
+const LON = '40.542146';
+const LAT = '56.202912';
+const WIDGET = `https://yandex.ru/map-widget/v1/?ll=${LON}%2C${LAT}&z=16&mode=map&pt=${LON}%2C${LAT}%2Cpm2rdm`;
+const ORG_URL = `https://yandex.ru/maps/org/betonny_zavod/${OID}/`;
+---
+
+<div id="production-map" class="relative overflow-hidden rounded-xl border border-white/20 bg-black/20">
+  <div class="aspect-[4/3] sm:aspect-[5/4] lg:aspect-[4/3]">
+    <div id="pm-placeholder" class="flex h-full w-full flex-col items-center justify-center gap-2 p-6 text-center">
+      <span class="text-3xl" aria-hidden="true">📍</span>
+      <span class="text-sm font-semibold">Производство: 600035, пос. Боголюбово, ул. Ленина, 2К</span>
+      <span id="pm-note" class="text-xs opacity-70">Карта Яндекс подгружается после принятия cookie — <button id="pm-consent" type="button" class="underline font-semibold cursor-pointer">принять и показать</button> или откройте <a href={ORG_URL} target="_blank" rel="noopener" class="underline font-semibold">карточку на Яндекс.Картах</a>.</span>
+    </div>
+    <iframe
+      id="pm-frame"
+      data-src={WIDGET}
+      title="Завод «Мир Бетона 33» на Яндекс.Картах — пос. Боголюбово, ул. Ленина, 2К"
+      class="hidden h-full w-full border-0"
+      loading="lazy"
+      allow="fullscreen"
+    ></iframe>
+  </div>
+</div>
+
+<script>
+  function loadMap() {
+    const frame = document.getElementById('pm-frame') as HTMLIFrameElement | null;
+    const placeholder = document.getElementById('pm-placeholder');
+    if (!frame || frame.dataset.loaded || !frame.dataset.src) return;
+    const host = frame.parentElement as HTMLElement;
+
+    const enter = () => {
+      if (frame.dataset.loaded) return;
+      let consent: string | null = null;
+      try { consent = localStorage.getItem('cookie-consent'); } catch { /* ignore */ }
+      if (consent !== 'granted') return;
+      const r = host.getBoundingClientRect();
+      if (r.top > innerHeight + 200 || r.bottom < -200) return; // грузим у вьюпорта, как ленивые iframe
+      frame.src = frame.dataset.src;
+      frame.dataset.loaded = '1';
+      frame.classList.remove('hidden');
+      placeholder?.classList.add('hidden');
+    };
+
+    // Ленивость: по скроллу/резайзу (IntersectionObserver/rAF ненадёжны в фоновых вкладках;
+    // enter() дешёвый — getBoundingClientRect + чтение localStorage, троттлинг не нужен)
+    window.addEventListener('scroll', enter, { passive: true });
+    window.addEventListener('resize', enter);
+    enter();
+    // Согласие дали на этой же странице — грузим сразу
+    window.addEventListener('cookie-consent', (ev) => {
+      if ((ev as CustomEvent).detail?.value === 'granted') enter();
+    });
+    document.getElementById('pm-consent')?.addEventListener('click', () => {
+      try { (window as any).__cookieDecide?.('granted'); } catch { /* ignore */ }
+    });
+  }
+
+  loadMap();
+  document.addEventListener('astro:page-load', loadMap);
+</script>

@@ -3,7 +3,7 @@
  * lead.php — обработчик заявок для zhbi.mir-betona33.ru (TimeWeb, nginx+PHP-FPM).
  *
  * Замена serverless-функции api/lead.ts с Vercel. Фронтенд шлёт
- * POST /api/lead с JSON-телом (source: 'hero' | 'price') и ожидает
+ * POST /api/lead с JSON-телом (source: 'hero' | 'price' | 'contact') и ожидает
  * ответ JSON: { ok: true } либо { ok: false, error: "..." }.
  *
  * Заявки отправляются письмом на LEAD_TO через PHP mail().
@@ -63,9 +63,10 @@ if (is_file($lockFile) && filemtime($lockFile) > time() - 10) {
 
 $leadType = (string)($body['source'] ?? '');
 $source = match ($leadType) {
-    'hero'  => 'Заявка-расчёт (главный экран)',
-    'price' => 'Запрос прайса',
-    default => 'Заявка с сайта',
+    'hero'    => 'Заявка-расчёт (главный экран)',
+    'contact' => 'Заявка-расчёт (блок контактов)',
+    'price'   => 'Запрос прайса',
+    default   => 'Заявка с сайта',
 };
 
 // Формируем текст письма (plain text, без user data в заголовках)

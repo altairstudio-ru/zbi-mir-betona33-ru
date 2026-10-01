@@ -25,12 +25,12 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
     .btn-back { background: #fff; color: var(--ink); border: 1px solid var(--line) !important; }
     .sheet { max-width: 820px; margin: 16px auto 40px; background: #fff; padding: 40px 44px; box-shadow: 0 2px 16px rgba(15,23,42,.08); }
     header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; border-bottom: 3px solid var(--brand); padding-bottom: 18px; margin-bottom: 8px; }
-    .brand-row { display: flex; align-items: center; gap: 12px; }
-    .brand { font-size: 20px; font-weight: 800; line-height: 1.2; }
+    .brand-row { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand { font-size: 20px; font-weight: 800; line-height: 1.2; min-width: 0; }
     .brand .accent { color: var(--brand); }
     .brand small { display: block; font-size: 12px; font-weight: 500; color: var(--muted); margin-top: 4px; }
     .brand-badge { display: inline-block; background: var(--brand); color: #fff; font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 4px; vertical-align: middle; letter-spacing: .04em; }
-    .doc-meta { text-align: right; font-size: 12px; color: var(--muted); }
+    .doc-meta { text-align: right; font-size: 12px; color: var(--muted); flex: none; white-space: nowrap; }
     h1 { font-size: 26px; margin: 18px 0 2px; }
     .subtitle { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
     table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
@@ -67,7 +67,7 @@ const fmt = (n: number) => n.toLocaleString('ru-RU');
     <header>
       <div class="brand-row">
         <img src="/mixer-dark.png" alt="" width="71" height="44" style="flex-shrink:0" />
-        <div class="brand">МИР БЕТОНА <span class="brand-badge">ЖБИ</span><small>Завод бетонных изделий · 600020, г. Владимир, ул. Большая Нижегородская, д. 71, офис 19А</small><small><a href="tel:+74922604933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (4922) 60-49-33</a> · <a href="tel:+79308304933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (930) 830-49-33</a></small></div>
+        <div class="brand">МИР БЕТОНА <span class="brand-badge">ЖБИ</span><small>Завод бетонных изделий · 600020, г. Владимир, ул. Б. Нижегородская, 71/19А</small><small><a href="tel:+74922604933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (4922) 60-49-33</a> · <a href="tel:+79308304933" style="color:var(--ink);text-decoration:none;font-weight:700">+7 (930) 830-49-33</a></small></div>
       </div>
       <div class="doc-meta">Прайс-лист<br/>от {today}<br/>действует 14 дней</div>
     </header>

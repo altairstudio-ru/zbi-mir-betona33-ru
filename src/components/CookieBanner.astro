@@ -59,6 +59,7 @@ const COUNTER_ID = 62139022;
   function decide(value) {
     try { localStorage.setItem('cookie-consent', value); } catch { /* ignore */ }
     document.getElementById('cookie-banner')?.classList.add('hidden');
+    window.dispatchEvent(new CustomEvent('cookie-consent', { detail: { value } }));
     if (value === 'granted') loadMetrika();
   }
   window.__cookieDecide = decide;
